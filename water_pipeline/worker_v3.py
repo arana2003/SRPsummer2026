@@ -234,3 +234,98 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+def run_from_job_list(args):
+    """
+    Alternative main loop that reads a flat job list CSV.
+    Each row has: job_id, mol, mode_i, mode_j, qi, qj, type
+    Worker takes its strided slice based on worker_id and n_workers.
+    """
+    import csv as csv_mod
+
+    t_start = time.time()
+    retry_path = args.outcsv.replace('.csv',
+                     f'_retry_n{args.node_id}w{args.worker_id}.txt')
+
+    # Load all jobs
+    with open(args.joblist) as f:
+        all_jobs = list(csv_mod.DictReader(f))
+
+    # Node block then worker stride
+    node_start  = args.node_id * args.jobs_per_node
+    node_end    = min(node_start + args.jobs_per_node, len(all_jobs))
+    node_jobs   = all_jobs[node_start:node_end]
+    my_jobs     = node_jobs[args.worker_id::args.n_workers]
+
+    print(f"Worker n{args.node_id}w{args.worker_id}: "
+          f"{len(my_jobs)} jobs assigned")
+
+    # Pre-load all molecule data needed by this worker
+    # Group by (mol, mode_i, mode_j) for one-time setup per pair
+    from collections import defaultdict
+    pair_cache = {}
+
+    n_done = n_fail = n_skipped = 0
+
+    for local_idx, job in enumerate(my_jobs):
+        if args.time_limit and (time.time() - t_start) > args.time_limit:
+            for j in my_jobs[local_idx:]:
+                append_retry(retry_path, float(j['qi']), float(j['qj']),
+                           f"time_limit (mode {j['mode_i']},{j['mode_j']})")
+            n_skipped = len(my_jobs) - local_idx
+            break
+
+        mol_name = job['mol']
+        mi = int(job['mode_i'])
+        mj = int(job['mode_j'])
+        qi = float(job['qi'])
+        qj = float(job['qj'])
+        global_idx = int(job['job_id'])
+
+        # One-time setup per (mol, mi, mj) pair
+        cache_key = (mol_name, mi, mj)
+        if cache_key not in pair_cache:
+            mol = load_molecule(mol_name)
+            pre = precompute(mol, mi, mj)
+            pair_cache[cache_key] = (mol, pre)
+        mol, pre = pair_cache[cache_key]
+
+        tag = f"n{args.node_id}w{args.worker_id}j{global_idx}_m{mi}m{mj}"
+        shm_mop = os.path.join(args.shm, tag + '.mop')
+        shm_aux = os.path.join(args.shm, tag + '.aux')
+
+        try:
+            geom = make_geometry(mol, pre, qi, qj)
+            with open(shm_mop, 'w') as f:
+                f.write(MOPAC_TEMPLATE.format(title=tag, geometry=geom))
+            subprocess.run([args.mopac, shm_mop],
+                           capture_output=True, timeout=300)
+            hof, V_cm1, dV_dqi, dV_dqj, err = parse_aux(
+                shm_aux, pre, args.equil_hof)
+            if err:
+                raise RuntimeError(err)
+            append_row(args.outcsv, {
+                'job_id': global_idx, 'mol': mol_name,
+                'mode_i': mi, 'mode_j': mj,
+                'qi': qi, 'qj': qj,
+                'hof_kcal': round(hof, 8),
+                'V_cm1': round(V_cm1, 4),
+                'dV_dqi': round(dV_dqi, 4) if dV_dqi is not None else '',
+                'dV_dqj': round(dV_dqj, 4) if dV_dqj is not None else '',
+                'status': 'ok',
+            })
+            n_done += 1
+        except subprocess.TimeoutExpired:
+            append_retry(retry_path, qi, qj, f"mopac_timeout m{mi}m{mj}")
+            n_fail += 1
+        except Exception as e:
+            append_retry(retry_path, qi, qj, f"{e} m{mi}m{mj}")
+            n_fail += 1
+        finally:
+            cleanup_shm(args.shm, tag)
+
+    elapsed = time.time() - t_start
+    print(f"Worker n{args.node_id}w{args.worker_id}: "
+          f"{n_done} ok | {n_fail} failed | {n_skipped} skipped | "
+          f"{elapsed:.1f}s")
