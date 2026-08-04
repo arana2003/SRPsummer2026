@@ -30,6 +30,21 @@ def load_molecule(mol_name):
             'mode_vecs': {i+1: modes[i] for i in range(len(freqs))},
             'freqs':     {i+1: freqs[i] for i in range(len(freqs))},
         }
+    elif mol_name == 'methanol':
+        d=os.environ.get('MOLDATA_DIR','/global/homes/a/alexisr/my_container_build')+'/'
+        geom    = np.load(d+'methanol_geometry.npy')
+        labels  = list(np.load(d+'methanol_labels.npy'))
+        modes   = np.load(d+'methanol_normal_modes.npy')
+        freqs   = np.load(d+'methanol_frequencies.npy')
+        masses_amu = {'C':12.000,'O':15.994910,'H':1.007825}
+        masses  = np.array([masses_amu[l] for l in labels])
+        return {
+            'labels':    labels,
+            'masses':    masses,
+            'geom_ang':  geom,
+            'mode_vecs': {i+1: modes[i] for i in range(len(freqs))},
+            'freqs':     {i+1: freqs[i] for i in range(len(freqs))},
+        }
     else:
         raise NotImplementedError(f"Add {mol_name} to load_molecule()")
 
