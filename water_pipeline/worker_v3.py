@@ -17,23 +17,18 @@ MOPAC_TEMPLATE = ("1SCF GRADIENTS AUX(PRECISION=14 COMP) PM7 CHARGE=0\n"
 
 def load_molecule(mol_name):
     if mol_name == 'water':
+        d=os.environ.get('MOLDATA_DIR','/global/homes/a/alexisr/my_container_build/water_widerange_test/wide_range_mopac_inputs')+'/' 
+        geom    = np.load(d+'geometry.npy')
+        labels  = list(np.load(d+'atom_labels.npy'))
+        modes   = np.load(d+'normal_modes.npy')
+        freqs   = np.load(d+'frequencies.npy')
+        masses  = np.array([15.9994, 1.00794, 1.00794])
         return {
-            'labels':  ['O', 'H', 'H'],
-            'masses':  np.array([15.9994, 1.00794, 1.00794]),
-            'geom_ang': np.array([
-                [ 0.00000000,  0.00000000, -0.04280778],
-                [ 0.75806363,  0.00000000, -0.67859611],
-                [-0.75806363,  0.00000000, -0.67859611],
-            ]),
-            'mode_vecs': {
-                1: np.array([ 0.00000, 0.00000, 0.06612,-0.43141, 0.00000,
-                              -0.52470, 0.43141, 0.00000,-0.52470]),
-                2: np.array([-0.00000, 0.00000, 0.05123, 0.55678, 0.00000,
-                              -0.40655,-0.55678, 0.00000,-0.40655]),
-                3: np.array([ 0.06562, 0.00000,-0.00000,-0.52076, 0.00000,
-                               0.43676,-0.52076, 0.00000,-0.43676]),
-            },
-            'freqs': {1: 2855.920572, 2: 2809.934421, 3: 1395.401993},
+            'labels':    labels,
+            'masses':    masses,
+            'geom_ang':  geom,
+            'mode_vecs': {i+1: modes[i] for i in range(len(freqs))},
+            'freqs':     {i+1: freqs[i] for i in range(len(freqs))},
         }
     else:
         raise NotImplementedError(f"Add {mol_name} to load_molecule()")
@@ -45,8 +40,8 @@ def precompute(mol, mi, mj):
         return np.sqrt(np.sum(masses_au[:, None] * vec.reshape(-1, 3)**2))
     return {
         'mass_vec':  mass_vec,
-        'mw_norm_i': mw_norm(mol['mode_vecs'][mi]),
-        'mw_norm_j': mw_norm(mol['mode_vecs'][mj]),
+        'freq_i':    mol['freqs'][mi],
+        'freq_j':    mol['freqs'][mj],
         'omega_i':   mol['freqs'][mi] / HARTREE_TO_CM1,
         'omega_j':   mol['freqs'][mj] / HARTREE_TO_CM1,
         'vec_i':     mol['mode_vecs'][mi],
@@ -54,13 +49,22 @@ def precompute(mol, mi, mj):
         'n_atoms':   len(mol['labels']),
     }
 
+def q_to_bohr(q, freq_cm1, eigenvector_per_atom, atom_masses_amu):
+    omega_hartree = freq_cm1 / HARTREE_TO_CM1
+    masses_au = np.asarray(atom_masses_amu) * AMU_TO_AU
+    mw_norm = np.sqrt(np.sum(masses_au[:, None] * eigenvector_per_atom**2))
+    return (q / np.sqrt(omega_hartree)) / mw_norm
+
+
 def make_geometry(mol, pre, qi, qj):
-    step_i = (qi / np.sqrt(pre['omega_i'])) / pre['mw_norm_i']
-    step_j = (qj / np.sqrt(pre['omega_j'])) / pre['mw_norm_j']
     n = pre['n_atoms']
+    vec_i = pre['vec_i'].reshape(n, 3)
+    vec_j = pre['vec_j'].reshape(n, 3)
+    step_i = q_to_bohr(qi, pre['freq_i'], vec_i, mol['masses'])
+    step_j = q_to_bohr(qj, pre['freq_j'], vec_j, mol['masses'])
     geom = (mol['geom_ang']
-            + step_i * BOHR_TO_ANG * pre['vec_i'].reshape(n, 3)
-            + step_j * BOHR_TO_ANG * pre['vec_j'].reshape(n, 3))
+            + step_i * BOHR_TO_ANG * vec_i
+            + step_j * BOHR_TO_ANG * vec_j)
     lines = [f"  {lbl:4s}  {xyz[0]:14.8f} 1  {xyz[1]:14.8f} 1  {xyz[2]:14.8f} 1"
              for lbl, xyz in zip(mol['labels'], geom)]
     return "\n".join(lines)
