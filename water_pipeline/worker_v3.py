@@ -27,7 +27,7 @@ def load_molecule(mol_name):
             'labels':    labels,
             'masses':    masses,
             'geom_ang':  geom,
-            'mode_vecs': {i+1: modes[i] for i in range(len(freqs))},
+            'mode_vecs': {i+1: -modes[i] for i in range(len(freqs))},  # negate NWChem sign convention
             'freqs':     {i+1: freqs[i] for i in range(len(freqs))},
         }
     elif mol_name == 'methanol':
@@ -42,7 +42,7 @@ def load_molecule(mol_name):
             'labels':    labels,
             'masses':    masses,
             'geom_ang':  geom,
-            'mode_vecs': {i+1: modes[i] for i in range(len(freqs))},
+            'mode_vecs': {i+1: -modes[i] for i in range(len(freqs))},  # negate NWChem sign convention
             'freqs':     {i+1: freqs[i] for i in range(len(freqs))},
         }
     else:
