@@ -64,22 +64,40 @@ def precompute(mol, mi, mj):
         'n_atoms':   len(mol['labels']),
     }
 
-def q_to_bohr(q, freq_cm1, eigenvector_per_atom, atom_masses_amu):
+def q_to_bohr(q, freq_cm1, eigenvector_per_atom, atom_masses_amu,
+              already_mass_weighted=False):
+    """
+    Convert dimensionless HO coordinate q to Bohr displacement.
+    q=1 gives energy increase of omega/2 for a harmonic potential.
+
+    already_mass_weighted: if True, skip dividing by mw_norm
+      (use when the code already includes mass weighting in vectors,
+       e.g. some NWChem/MOPAC output conventions)
+    """
     omega_hartree = freq_cm1 / HARTREE_TO_CM1
+    if already_mass_weighted:
+        return q / np.sqrt(omega_hartree)
     masses_au = np.asarray(atom_masses_amu) * AMU_TO_AU
     mw_norm = np.sqrt(np.sum(masses_au[:, None] * eigenvector_per_atom**2))
     return (q / np.sqrt(omega_hartree)) / mw_norm
 
 
 def make_geometry(mol, pre, qi, qj):
+    """
+    Displace geometry along two normal modes.
+    qi and qj are the displacement in Bohr along each mode direction.
+    step_bohr = qi directly (qi IS the Bohr displacement, matching
+    the convention in the training datasets where x-axis = step_bohr).
+    """
     n = pre['n_atoms']
     vec_i = pre['vec_i'].reshape(n, 3)
     vec_j = pre['vec_j'].reshape(n, 3)
-    step_i = q_to_bohr(qi, pre['freq_i'], vec_i, mol['masses'])
-    step_j = q_to_bohr(qj, pre['freq_j'], vec_j, mol['masses'])
+    # qi is already in Bohr -- use directly as step
+    step_i_bohr = qi
+    step_j_bohr = qj
     geom = (mol['geom_ang']
-            + step_i * BOHR_TO_ANG * vec_i
-            + step_j * BOHR_TO_ANG * vec_j)
+            + step_i_bohr * BOHR_TO_ANG * vec_i
+            + step_j_bohr * BOHR_TO_ANG * vec_j)
     lines = [f"  {lbl:4s}  {xyz[0]:14.8f} 1  {xyz[1]:14.8f} 1  {xyz[2]:14.8f} 1"
              for lbl, xyz in zip(mol['labels'], geom)]
     return "\n".join(lines)
