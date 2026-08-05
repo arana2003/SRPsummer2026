@@ -17,18 +17,43 @@ MOPAC_TEMPLATE = ("1SCF GRADIENTS AUX(PRECISION=14 COMP) PM7 CHARGE=0\n"
 
 def load_molecule(mol_name):
     if mol_name == 'water':
-        d=os.environ.get('MOLDATA_DIR','/global/homes/a/alexisr/my_container_build/water_widerange_test/wide_range_mopac_inputs')+'/' 
-        geom    = np.load(d+'geometry.npy')
-        labels  = list(np.load(d+'atom_labels.npy'))
-        modes   = np.load(d+'normal_modes.npy')
-        freqs   = np.load(d+'frequencies.npy')
-        masses  = np.array([15.9994, 1.00794, 1.00794])
+        # Load from Kaiwan's PBQFF output files
+        # MOLDATA_DIR should point to the pbqff/ subfolder of Kaiwan's workdir
+        d = os.environ.get('MOLDATA_DIR',
+            '/global/cfs/cdirs/m5128/kbilal/interface/tests/h2o')
+        nm = os.environ.get('SYS_NAME', 'h2o')
+
+        # PBQFF geometry (in Bohr) -> convert to Angstrom
+        BOHR_TO_ANG_CONV = 0.529177
+        pbqff_out = os.path.join(d, 'pbqff', 'pbqff.out')
+        labels=[]; geom_bohr=[]
+        with open(pbqff_out) as f:
+            for line in f:
+                if 'Geometry:' in line: break
+            for line in f:
+                if not line.strip(): break
+                vals=line.split()
+                if len(vals)>=4:
+                    labels.append(vals[0])
+                    geom_bohr.append([float(vals[1]),float(vals[2]),float(vals[3])])
+        geom_ang = np.array(geom_bohr) * BOHR_TO_ANG_CONV
+
+        # PBQFF normal modes (unit normalized Cartesian vectors)
+        pbqff_modes_file = os.path.join(d, 'pbqff', f'pbqff2_nmodes_{nm}.dat')
+        data = np.loadtxt(pbqff_modes_file)
+        freqs_arr = data[:,0]
+        modes_arr = data[:,1:]  # shape (n_modes, 3*n_atoms)
+
+        ATOMIC_MASSES = {'H':1.007825,'C':12.000000,'N':14.003074,
+                         'O':15.994910,'F':18.998403,'S':31.972071}
+        masses = np.array([ATOMIC_MASSES.get(l,12.0) for l in labels])
+
         return {
             'labels':    labels,
             'masses':    masses,
-            'geom_ang':  geom,
-            'mode_vecs': {i+1: -modes[i] for i in range(len(freqs))},  # negate NWChem sign convention
-            'freqs':     {i+1: freqs[i] for i in range(len(freqs))},
+            'geom_ang':  geom_ang,
+            'mode_vecs': {i+1: modes_arr[i] for i in range(len(freqs_arr))},
+            'freqs':     {i+1: freqs_arr[i] for i in range(len(freqs_arr))},
         }
     elif mol_name == 'methanol':
         d=os.environ.get('MOLDATA_DIR','/global/homes/a/alexisr/my_container_build')+'/'
@@ -85,16 +110,16 @@ def q_to_bohr(q, freq_cm1, eigenvector_per_atom, atom_masses_amu,
 def make_geometry(mol, pre, qi, qj):
     """
     Displace geometry along two normal modes.
-    qi and qj are the displacement in Bohr along each mode direction.
-    step_bohr = qi directly (qi IS the Bohr displacement, matching
-    the convention in the training datasets where x-axis = step_bohr).
+    qi and qj are dimensionless HO coordinates.
+    Converts to Bohr using q_to_bohr then to Angstrom for MOPAC input.
+    PBQFF vectors are unit-normalized Cartesian -- q_to_bohr handles
+    the mass-weighted normalization correctly.
     """
     n = pre['n_atoms']
     vec_i = pre['vec_i'].reshape(n, 3)
     vec_j = pre['vec_j'].reshape(n, 3)
-    # qi is already in Bohr -- use directly as step
-    step_i_bohr = qi
-    step_j_bohr = qj
+    step_i_bohr = q_to_bohr(qi, pre['freq_i'], vec_i, mol['masses'])
+    step_j_bohr = q_to_bohr(qj, pre['freq_j'], vec_j, mol['masses'])
     geom = (mol['geom_ang']
             + step_i_bohr * BOHR_TO_ANG * vec_i
             + step_j_bohr * BOHR_TO_ANG * vec_j)
