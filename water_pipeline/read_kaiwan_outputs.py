@@ -22,7 +22,7 @@ def read_nwc_nmodes(nm, workdir='.'):
     Read NWChem frequencies and mode vectors from nwc_nmodes_{nm}.dat
     Format: freq  vec[0]  vec[1]  ...  vec[3N-1]  (one line per mode)
     """
-    path = os.path.join(workdir, f'nwc_nmodes_{nm}.dat')
+    path = os.path.join(workdir, 'nwchem', f'nwc_nmodes_{nm}.dat')
     if not os.path.exists(path):
         raise FileNotFoundError(f"Not found: {path}")
     freqs = []; vecs = []
@@ -40,8 +40,10 @@ def read_nwc_nmodes(nm, workdir='.'):
 def read_pbqff_geometry(workdir='.'):
     """
     Read PBQFF optimized geometry from pbqff/pbqff.out
+    PBQFF outputs geometry in BOHR -- converts to Angstrom.
     Returns (labels, coords_ang)
     """
+    BOHR_TO_ANG = 0.529177
     path = os.path.join(workdir, 'pbqff', 'pbqff.out')
     if not os.path.exists(path):
         raise FileNotFoundError(f"Not found: {path}")
@@ -57,11 +59,20 @@ def read_pbqff_geometry(workdir='.'):
             vals = line.split()
             if len(vals) >= 4:
                 labels.append(vals[0])
-                coords.append([float(vals[1]), float(vals[2]), float(vals[3])])
+                # PBQFF geometry is in Bohr, convert to Angstrom
+                coords.append([float(vals[1])*BOHR_TO_ANG,
+                               float(vals[2])*BOHR_TO_ANG,
+                               float(vals[3])*BOHR_TO_ANG])
 
     coords = np.array(coords)
-    print(f"PBQFF geometry: {len(labels)} atoms {labels}")
+    print(f"PBQFF geometry: {len(labels)} atoms {labels} (converted Bohr->Ang)")
     return labels, coords
+
+
+def read_pbqff_nmodes(nm, workdir='.'):
+    path = os.path.join(workdir, 'pbqff', f'pbqff2_nmodes_{nm}.dat')
+    print(f"Reading PBQFF modes: {path}")
+    return read_nmodes_file(path)
 
 
 def read_nwchem_geometry(nm, workdir='.'):
@@ -69,7 +80,7 @@ def read_nwchem_geometry(nm, workdir='.'):
     Read NWChem optimized geometry from nwchem/{nm}.out
     Returns coords_ang
     """
-    path = os.path.join(workdir, 'nwchem', f'{nm}.out')
+    path = os.path.join(workdir, 'nwchem', f'nwc_{nm}.out')
     if not os.path.exists(path):
         # Try alternate locations
         for alt in [f'{nm}_opt.out', f'{nm}.out']:
