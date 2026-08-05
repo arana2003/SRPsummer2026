@@ -31,6 +31,21 @@ MOPAC_TEMPLATE = """1SCF GRADIENTS AUX(PRECISION=14 COMP) PM7 CHARGE=0
 {geometry}
 """
 
+NWCHEM_TEMPLATE = """start {title}
+title "2D coupling point: modes {mode_i} and {mode_j}"
+geometry units angstroms
+{geometry}
+end
+basis
+  * library sto-3g
+end
+scf
+  rhf
+  print low
+end
+task scf energy
+"""
+
 
 def q_to_bohr(q, freq_cm1, eigenvector_per_atom, atom_masses_amu):
     omega_hartree = freq_cm1 / HARTREE_TO_CM1
@@ -62,6 +77,20 @@ def write_mopac_input(filepath, title, mode_i, mode_j, atom_labels, geometry):
         f.write(content)
 
 
+def write_nwchem_input(filepath, title, mode_i, mode_j, atom_labels, geometry):
+    geom_lines = [
+        f"  {label:4s}  {xyz[0]:14.8f}  {xyz[1]:14.8f}  {xyz[2]:14.8f}"
+        for label, xyz in zip(atom_labels, geometry)
+    ]
+    content = NWCHEM_TEMPLATE.format(
+        title=title.replace(" ", "_"),
+        mode_i=mode_i, mode_j=mode_j,
+        geometry="\n".join(geom_lines)
+    )
+    with open(filepath, "w") as f:
+        f.write(content)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--mol", type=str, default="water")
@@ -73,6 +102,9 @@ def main():
                         help="Max |q| for each mode in the 2D grid")
     parser.add_argument("--outdir", type=str, default="2d_mopac_inputs")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--code", type=str, default="mopac",
+                        choices=["mopac", "nwchem"],
+                        help="Electronic structure code to use")
     parser.add_argument("--only-pair", type=str, default=None,
                         help="Only generate for this pair, e.g. '2,3'")
     args = parser.parse_args()
@@ -133,8 +165,13 @@ def main():
                 label = f"m{mode_i}m{mode_j}_{split}{k:03d}"
                 title = f"{args.mol}_{label}"
                 filepath = os.path.join(args.outdir, f"{title}.mop")
-                write_mopac_input(filepath, title, mode_i, mode_j,
-                                  atom_labels, disp_geom)
+                if args.code == "nwchem":
+                    filepath = os.path.join(args.outdir, f"{title}.nw")
+                    write_nwchem_input(filepath, title, mode_i, mode_j,
+                                       atom_labels, disp_geom)
+                else:
+                    write_mopac_input(filepath, title, mode_i, mode_j,
+                                      atom_labels, disp_geom)
                 all_jobs.append({
                     "job_num": job_num, "mode_i": mode_i, "mode_j": mode_j,
                     "freq_i": freq_i, "freq_j": freq_j,
