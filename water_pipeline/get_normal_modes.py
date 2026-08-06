@@ -156,6 +156,23 @@ def main():
 
     # Parse output
     freqs, vecs = parse_mopac_force_output(aux_path, n_atoms, args.freq_cutoff)
+
+    # Extract FORCE geometry (ATOM_X_FORCE) -- this is the geometry
+    # the mode vectors are defined in, may differ from optimization geometry
+    import re as re2
+    force_txt = open(aux_path).read()
+    force_geom_m = re2.search(
+        r'ATOM_X_FORCE:ANGSTROMS\[\d+\]=([\s\d.\-+DE
+]+?)(?:
+ [A-Z]|\Z)',
+        force_txt)
+    if force_geom_m:
+        force_vals = [float(x.replace("D","E"))
+                      for x in force_geom_m.group(1).split()]
+        coords = np.array(force_vals).reshape(-1, 3)
+        print(f"Using FORCE geometry (ATOM_X_FORCE) for displacements:")
+        for lbl,xyz in zip(labels, coords):
+            print(f"  {lbl}  {xyz[0]:.6f}  {xyz[1]:.6f}  {xyz[2]:.6f}")
     print(f"Frequencies (cm-1): {freqs}")
     print(f"Mode vectors shape: {vecs.shape}")
 
