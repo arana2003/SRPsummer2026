@@ -54,7 +54,7 @@ def write_mopac_input(path, title, labels, coords):
             title=title, geometry="\n".join(geom_lines)))
 
 
-def parse_mopac_force_output(aux_path, n_atoms):
+def parse_mopac_force_output(aux_path, n_atoms, freq_cutoff=200.0):
     """Parse frequencies and normal mode vectors from MOPAC FORCE aux file."""
     if not os.path.exists(aux_path):
         raise FileNotFoundError(f"aux file not found: {aux_path}")
@@ -62,23 +62,23 @@ def parse_mopac_force_output(aux_path, n_atoms):
     txt = open(aux_path).read()
 
     # Parse frequencies
-    freq_m = re.search(r'FREQUENCIES\[(\d+)\]=([\s\d.\-+DE\n]+?)(?:\n[A-Z]|\Z)', txt)
+    freq_m = re.search(r'VIB\._FREQ:CM\(-1\)\[\d+\]=([\s\d.\-+DE\n]+?)(?:\n [A-Z]|\Z)', txt)
     if not freq_m:
         raise ValueError("Frequencies not found in aux file")
-    freqs_all = [float(x.replace('D','E')) for x in freq_m.group(2).split()]
+    freqs_all = [float(x.replace('D','E')) for x in freq_m.group(1).split()]
 
     # Parse normal mode vectors (FORCE_CONSTANTS or NORMAL_MODES)
-    vec_m = re.search(r'NORMAL_MODES\[(\d+)\]=([\s\d.\-+DE\n]+?)(?:\n[A-Z]|\Z)', txt)
+    vec_m = re.search(r'NORMAL_MODES\[\d+\]=([\s\d.\-+DE\n]+?)(?:\n #|\n [A-Z]|\Z)', txt)
     if not vec_m:
         raise ValueError("Normal modes not found in aux file")
-    vecs_flat = [float(x.replace('D','E')) for x in vec_m.group(2).split()]
+    vecs_flat = [float(x.replace('D','E')) for x in vec_m.group(1).split()]
 
     n_coords = 3 * n_atoms
     n_modes_all = len(freqs_all)
     vecs = np.array(vecs_flat).reshape(n_modes_all, n_coords)
 
     # Remove translation/rotation (frequencies near zero)
-    real_mask = np.array(freqs_all) > 10.0
+    real_mask = np.array(freqs_all) > freq_cutoff
     freqs = np.array(freqs_all)[real_mask]
     vecs  = vecs[real_mask]
 
@@ -92,6 +92,9 @@ def main():
     p.add_argument('--mol',    default='molecule')
     p.add_argument('--mopac',  default='/opt/mopac/mopac')
     p.add_argument('--outdir', default='.')
+    p.add_argument('--charge', type=int, default=0)
+    p.add_argument('--freq-cutoff', type=float, default=200.0,
+                   help='Min frequency cm-1 to keep (removes translations/rotations)')
     p.add_argument('--shm',    default='/dev/shm')
     args = p.parse_args()
 
@@ -101,12 +104,50 @@ def main():
     masses  = np.array([ATOMIC_MASSES.get(l, 12.0) for l in labels])
     print(f"Molecule: {args.mol}, {n_atoms} atoms: {labels}")
 
-    # Write MOPAC FORCE input to /dev/shm
+    # Step 1: Run MOPAC geometry optimization
+    opt_path = os.path.join(args.shm, f"{args.mol}_opt.mop")
+    opt_aux  = opt_path.replace('.mop', '.aux')
+
+    # Write optimization input (all coords free to optimize)
+    geom_lines_opt = [
+        f"  {lbl:4s}  {xyz[0]:14.8f} 1  {xyz[1]:14.8f} 1  {xyz[2]:14.8f} 1"
+        for lbl, xyz in zip(labels, coords)
+    ]
+    with open(opt_path, 'w') as f:
+        f.write(f"PM7 CHARGE={args.charge} AUX(PRECISION=14)\n{args.mol}_opt\n{args.mol}_opt\n")
+        f.write("\n".join(geom_lines_opt) + "\n")
+
+    print("Running MOPAC geometry optimization...")
+    subprocess.run([args.mopac, opt_path], capture_output=True, timeout=600)
+
+    # Extract optimized geometry - take LAST ATOM_X_UPDATED block
+    import re
+    opt_txt = open(opt_aux).read()
+    all_geoms = re.findall(
+        r"ATOM_X_UPDATED:ANGSTROMS\[\d+\]=([\s\d.\-+DE\n]+?)(?:\n [A-Z]|\Z)",
+        opt_txt)
+    if all_geoms:
+        opt_vals = [float(x.replace("D","E")) for x in all_geoms[-1].split()]
+        coords = np.array(opt_vals).reshape(-1, 3)
+        print(f"Optimized geometry ({len(all_geoms)} steps):")
+        for lbl,xyz in zip(labels,coords):
+            print(f"  {lbl}  {xyz[0]:.6f}  {xyz[1]:.6f}  {xyz[2]:.6f}")
+    else:
+        print("WARNING: Could not find optimized geometry")
+
+    # Get final HOF
+    all_hofs = re.findall(r"HEAT_OF_FORM_UPDATED:KCAL/MOL=([\d.\-+DE]+)", opt_txt)
+    if all_hofs:
+        hof_equil = float(all_hofs[-1].replace("D","E"))
+        print(f"Equilibrium HOF: {hof_equil:.6f} kcal/mol")
+        os.makedirs(args.outdir, exist_ok=True)
+        np.save(os.path.join(args.outdir, f"{args.mol}_equil_hof.npy"), [hof_equil])
+
+    # Step 2: Run MOPAC FORCE at optimized geometry
     mop_path = os.path.join(args.shm, f"{args.mol}_force.mop")
     aux_path = mop_path.replace('.mop', '.aux')
     write_mopac_input(mop_path, args.mol, labels, coords)
 
-    # Run MOPAC FORCE
     print("Running MOPAC FORCE calculation...")
     r = subprocess.run([args.mopac, mop_path], capture_output=True, timeout=300)
     if not os.path.exists(aux_path):
@@ -114,7 +155,7 @@ def main():
     print("MOPAC FORCE done.")
 
     # Parse output
-    freqs, vecs = parse_mopac_force_output(aux_path, n_atoms)
+    freqs, vecs = parse_mopac_force_output(aux_path, n_atoms, args.freq_cutoff)
     print(f"Frequencies (cm-1): {freqs}")
     print(f"Mode vectors shape: {vecs.shape}")
 
