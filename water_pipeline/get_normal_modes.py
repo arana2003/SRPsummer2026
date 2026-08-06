@@ -192,3 +192,44 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+def match_modes_to_pbqff(mopac_freqs, mopac_vecs, pbqff_file):
+    """
+    Match MOPAC FORCE modes to PBQFF modes using cross-correlation
+    + Hungarian algorithm (same approach as Kaiwan's translation.py).
+    Returns reordered (freqs, vecs) in PBQFF mode order.
+    """
+    from scipy.optimize import linear_sum_assignment
+    import numpy as np
+
+    if not os.path.exists(pbqff_file):
+        print(f"PBQFF modes file not found: {pbqff_file}")
+        return mopac_freqs, mopac_vecs
+
+    data = np.loadtxt(pbqff_file)
+    pbqff_freqs = data[:,0]
+    pbqff_vecs  = data[:,1:]
+
+    # Cross-correlation matrix
+    C = mopac_vecs @ pbqff_vecs.T
+    C /= (np.linalg.norm(mopac_vecs) * np.linalg.norm(pbqff_vecs))
+
+    # Hungarian algorithm to find best matching
+    rows, cols = linear_sum_assignment(-np.abs(C))
+
+    # Reorder MOPAC modes to match PBQFF order
+    mopac_freqs_matched = np.array([mopac_freqs[rows[i]] for i in range(len(cols))])
+    mopac_vecs_matched  = np.array([mopac_vecs[rows[i]]  for i in range(len(cols))])
+
+    # Fix phase: if dot product negative, negate the vector
+    for i in range(len(cols)):
+        if C[rows[i], cols[i]] < 0:
+            mopac_vecs_matched[i] *= -1
+
+    print(f"Mode matching (MOPAC -> PBQFF):")
+    for i in range(len(cols)):
+        print(f"  MOPAC mode {rows[i]+1} ({mopac_freqs[rows[i]]:.1f} cm-1) "
+              f"-> PBQFF mode {cols[i]+1} ({pbqff_freqs[cols[i]]:.1f} cm-1)")
+
+    return mopac_freqs_matched, mopac_vecs_matched
