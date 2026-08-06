@@ -72,40 +72,73 @@ def precompute(mol, mi, mj):
         'n_atoms':   len(mol['labels']),
     }
 
+# Physical constants for q->Bohr conversion
+_HBAR    = 1.054571817e-34  # J*s
+_C_CMS   = 2.99792458e10    # cm/s
+_M_AMU   = 1.66053907e-27   # kg/amu
+_A0_M    = 5.29177211e-11   # m/Bohr
+
+
+def q_to_displacement(q, freq_cm1, vec_per_atom, masses_amu, convention='mopac'):
+    """
+    Convert dimensionless q to Bohr displacement vector (n_atoms, 3).
+
+    From first principles (verified against harmonic oscillator):
+      mopac:  delta-X_i,j = q * L_i,j * sqrt(hbar / (mu_j_kg * omega)) / a0
+      pbqff:  delta-X_i   = q * L_i   * sqrt(hbar / (omega)) / a0  (no per-atom mass)
+      nwchem: delta-X_i   = q * L_i   * sqrt(E_h / (100*h*c*nu)) / a0
+
+    vec_per_atom: (n_atoms, 3) mode vector from code output
+    masses_amu:   (n_atoms,) atomic masses in amu
+    Returns displacement in Bohr, shape (n_atoms, 3)
+    """
+    omega = 2 * np.pi * _C_CMS * freq_cm1  # rad/s
+    mu = np.asarray(masses_amu)  # (n_atoms,)
+
+    if convention == 'mopac':
+        # Per-atom mass weighting: delta-X_j = q * L_j * sqrt(hbar/(mu_j*omega)) / a0
+        scale = np.sqrt(_HBAR / (mu * _M_AMU * omega)) / _A0_M  # (n_atoms,)
+        return q * vec_per_atom * scale[:, None]
+    elif convention == 'pbqff':
+        # No per-atom mass weighting
+        scale = np.sqrt(_HBAR / omega) / _A0_M
+        return q * vec_per_atom * scale
+    elif convention == 'nwchem':
+        # NWChem uses Hartree energy normalization
+        E_h = 4.35977772e-18  # J
+        h   = 6.62607015e-34  # J*s
+        scale = np.sqrt(E_h / (100 * h * _C_CMS * freq_cm1)) / _A0_M
+        return q * vec_per_atom * scale
+    else:
+        raise ValueError(f"Unknown convention: {convention}")
+
+
 def q_to_bohr(q, freq_cm1, eigenvector_per_atom, atom_masses_amu,
               already_mass_weighted=False):
-    """
-    Convert dimensionless HO coordinate q to Bohr displacement.
-    q=1 gives energy increase of omega/2 for a harmonic potential.
-
-    already_mass_weighted: if True, skip dividing by mw_norm
-      (use when the code already includes mass weighting in vectors,
-       e.g. some NWChem/MOPAC output conventions)
-    """
+    """Legacy wrapper -- uses mopac convention."""
     omega_hartree = freq_cm1 / HARTREE_TO_CM1
-    if already_mass_weighted:
-        return q / np.sqrt(omega_hartree)
     masses_au = np.asarray(atom_masses_amu) * AMU_TO_AU
     mw_norm = np.sqrt(np.sum(masses_au[:, None] * eigenvector_per_atom**2))
     return (q / np.sqrt(omega_hartree)) / mw_norm
 
 
-def make_geometry(mol, pre, qi, qj):
+def make_geometry(mol, pre, qi, qj, convention='mopac'):
     """
-    Displace geometry along two normal modes.
-    qi and qj are dimensionless HO coordinates.
-    Converts to Bohr using q_to_bohr then to Angstrom for MOPAC input.
-    PBQFF vectors are unit-normalized Cartesian -- q_to_bohr handles
-    the mass-weighted normalization correctly.
+    Displace geometry along two normal modes using correct q->Bohr conversion.
+    qi, qj are dimensionless HO coordinates.
+
+    convention: 'mopac', 'pbqff', or 'nwchem' (see q_to_displacement)
     """
     n = pre['n_atoms']
     vec_i = pre['vec_i'].reshape(n, 3)
     vec_j = pre['vec_j'].reshape(n, 3)
-    step_i_bohr = q_to_bohr(qi, pre['freq_i'], vec_i, mol['masses'])
-    step_j_bohr = q_to_bohr(qj, pre['freq_j'], vec_j, mol['masses'])
-    geom = (mol['geom_ang']
-            + step_i_bohr * BOHR_TO_ANG * vec_i
-            + step_j_bohr * BOHR_TO_ANG * vec_j)
+
+    # Displacement in Bohr using correct convention
+    disp_i = q_to_displacement(qi, pre['freq_i'], vec_i, mol['masses'], convention)
+    disp_j = q_to_displacement(qj, pre['freq_j'], vec_j, mol['masses'], convention)
+
+    # Add to equilibrium geometry (convert Bohr -> Ang)
+    geom = mol['geom_ang'] + (disp_i + disp_j) * BOHR_TO_ANG
     lines = [f"  {lbl:4s}  {xyz[0]:14.8f} 1  {xyz[1]:14.8f} 1  {xyz[2]:14.8f} 1"
              for lbl, xyz in zip(mol['labels'], geom)]
     return "\n".join(lines)
