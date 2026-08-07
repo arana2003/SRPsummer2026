@@ -1,0 +1,5 @@
+[33m2267595[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32malexis-multifidelity-pes[m[33m, [m[1;31morigin/alexis-multifidelity-pes[m[33m)[m Calibrated PBQFF modes working: ratio~1.0 for all modes, correct dimensionless q
+[33mf3ba798[m Add calibrate_modes.py - empirical scale calibration for dimensionless q
+[33mc97a7a5[m Extensive normalization diagnostics - mode-dependent ratios unsolved, awaiting Dr Thomas
+[33m96615b6[m Add mode matching, first-principles q_to_displacement - awaiting normalization fix
+[33ma66792e[m Implement first-principles q_to_displacement, ratio=1.22 systematic - awaiting Dr Thomas clarification
