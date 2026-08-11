@@ -30,7 +30,7 @@ ENV RUST_LOG=debug
 
 # Install pbqfff (with FC output)
 WORKDIR /opt
-RUN git clone --branch brent/print-fcs https://github.com/ntBre/pbqff.git
+RUN git clone https://github.com/ntBre/pbqff.git
 RUN cd pbqff && \
     cargo build --release && \
     # indirectly through target/release/pbqff **had --features vers but that didnt work

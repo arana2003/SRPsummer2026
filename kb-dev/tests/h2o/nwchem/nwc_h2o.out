@@ -36,14 +36,14 @@
            Job information
            ---------------
 
-    hostname        = c11e5e0fbb88
+    hostname        = 31756638ff74
     program         = nwchem
-    date            = Tue Jul 21 00:59:44 2026
+    date            = Sat Aug  8 08:54:15 2026
 
-    compiled        = Thu_Jun_18_19:54:51_2026
+    compiled        = Wed_Aug_05_01:16:56_2026
     source          = /opt/nwchem
     nwchem branch   = 7.3.1
-    nwchem revision = v7.2.0-beta1-1866-gb3dec9748e
+    nwchem revision = v7.2.0-beta1-1900-g3797506185
     ga revision     = 5.9.2
     use scalapack   = F
     input           = h2o.nw
@@ -290,10 +290,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       0.8s
+ Forming initial guess at       0.1s
 
 
- Starting SCF solution at       0.8s
+ Starting SCF solution at       0.1s
 
  Local filesystem for scratch_dir
 
@@ -306,7 +306,7 @@
       Two-electron energy =     35.637804222146
  Nuclear repulsion energy =      6.251545763977
 
-        Time for solution =      0.1s
+        Time for solution =      0.0s
 
 
                               NWChem Gradients Module
@@ -326,7 +326,7 @@
 
 @ Step       Energy      Delta E   Gmax     Grms     Xrms     Xmax   Walltime
 @ ---- ---------------- -------- -------- -------- -------- -------- --------
-@    0     -74.76472214  0.0D+00  0.17556  0.14339  0.00000  0.00000      0.9
+@    0     -74.76472214  0.0D+00  0.17556  0.14339  0.00000  0.00000      0.2
                                                                     
 
 
@@ -342,7 +342,7 @@
     2 Stretch                  1     3                       1.41421    0.17556
     3 Bend                     2     1     3                90.00000   -0.00591
 
- Restricting large step in mode    3 eval= 6.3D-01 step= 3.9D-01 new= 3.0D-01
+ Restricting large step in mode    3 eval= 6.2D-01 step= 4.0D-01 new= 3.0D-01
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -366,10 +366,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       1.2s
+ Forming initial guess at       0.2s
 
 
- Starting SCF solution at       1.3s
+ Starting SCF solution at       0.2s
 
  Local filesystem for scratch_dir
 
@@ -377,17 +377,17 @@
        Final RHF  results 
        ------------------ 
 
-         Total SCF energy =    -74.840375182261
-      One-electron energy =   -117.786933762516
-      Two-electron energy =     36.150605757698
- Nuclear repulsion energy =      6.795952822557
+         Total SCF energy =    -74.840701107755
+      One-electron energy =   -117.792852190886
+      Two-electron energy =     36.153991073872
+ Nuclear repulsion energy =      6.798160009259
 
-        Time for solution =      0.1s
+        Time for solution =      0.0s
 
 
  Line search: 
-     step= 1.00 grad=-7.8D-02 hess= 2.5D-03 energy=    -74.840375 mode=restrict
- new step= 4.00                   predicted energy=    -75.037266
+     step= 1.00 grad=-7.9D-02 hess= 2.6D-03 energy=    -74.840701 mode=restrict
+ new step= 4.00                   predicted energy=    -75.036864
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -407,9 +407,9 @@
 
   No.       Tag          Charge          X              Y              Z
  ---- ---------------- ---------- -------------- -------------- --------------
-    1 O                    8.0000     0.00000000     0.00000000    -0.12350956
-    2 H                    1.0000     0.79871777     0.00000000    -0.63824522
-    3 H                    1.0000    -0.79871777     0.00000000    -0.63824522
+    1 O                    8.0000     0.00000000     0.00000000    -0.13188552
+    2 H                    1.0000     0.80391106     0.00000000    -0.63405724
+    3 H                    1.0000    -0.80391106     0.00000000    -0.63405724
 
       Atomic Mass 
       ----------- 
@@ -418,13 +418,13 @@
       H                  1.007825
 
 
- Effective nuclear repulsion energy (a.u.)       9.2417370775
+ Effective nuclear repulsion energy (a.u.)       9.2616535397
 
             Nuclear Dipole moment (a.u.) 
             ----------------------------
         X                 Y               Z
  ---------------- ---------------- ----------------
-     0.0000000000     0.0000000000    -4.2794109613
+     0.0000000000     0.0000000000    -4.3902089000
 
       Symmetry information
       --------------------
@@ -456,10 +456,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       1.7s
+ Forming initial guess at       0.3s
 
 
- Starting SCF solution at       1.7s
+ Starting SCF solution at       0.3s
 
  Local filesystem for scratch_dir
 
@@ -467,12 +467,12 @@
        Final RHF  results 
        ------------------ 
 
-         Total SCF energy =    -74.955001798659
-      One-electron energy =   -122.529759720886
-      Two-electron energy =     38.333020844725
- Nuclear repulsion energy =      9.241737077502
+         Total SCF energy =    -74.952840581358
+      One-electron energy =   -122.578344351358
+      Two-electron energy =     38.363850230255
+ Nuclear repulsion energy =      9.261653539745
 
-        Time for solution =      0.1s
+        Time for solution =      0.0s
 
 
                               NWChem Gradients Module
@@ -484,15 +484,15 @@
 
     atom               coordinates                        gradient
                  x          y          z           x          y          z
-   1 O       0.000000   0.000000  -0.233399    0.000000   0.000000  -0.100988
-   2 H       1.509358   0.000000  -1.206109   -0.016251   0.000000   0.050494
-   3 H      -1.509358   0.000000  -1.206109    0.016251   0.000000   0.050494
+   1 O       0.000000   0.000000  -0.249228    0.000000   0.000000  -0.108469
+   2 H       1.519172   0.000000  -1.198194   -0.016986   0.000000   0.054234
+   3 H      -1.519172   0.000000  -1.198194    0.016986   0.000000   0.054234
 
   no constraints, skipping    0.0000000000000000     
 
   Step       Energy      Delta E   Gmax     Grms     Xrms     Xmax   Walltime
   ---- ---------------- -------- -------- -------- -------- -------- --------
-@    1     -74.95500180 -1.9D-01  0.04101  0.03824  0.30126  0.64977      1.9
+@    1     -74.95284058 -1.9D-01  0.04314  0.04063  0.30442  0.66812      0.3
                                                                     
 
 
@@ -504,11 +504,11 @@
 
       Type          Name      I     J     K     L     M      Value     Gradient
       ----------- --------  ----- ----- ----- ----- ----- ---------- ----------
-    1 Stretch                  1     2                       0.95021   -0.04101
-    2 Stretch                  1     3                       0.95021   -0.04101
-    3 Bend                     2     1     3               114.40029    0.03197
+    1 Stretch                  1     2                       0.94787   -0.04314
+    2 Stretch                  1     3                       0.94787   -0.04314
+    3 Bend                     2     1     3               116.01719    0.03507
 
- Restricting large step in mode    1 eval= 8.3D-02 step=-4.8D-01 new=-3.0D-01
+ Restricting large step in mode    1 eval= 8.2D-02 step=-5.3D-01 new=-3.0D-01
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -532,10 +532,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       2.3s
+ Forming initial guess at       0.4s
 
 
- Starting SCF solution at       2.3s
+ Starting SCF solution at       0.4s
 
  Local filesystem for scratch_dir
 
@@ -543,17 +543,17 @@
        Final RHF  results 
        ------------------ 
 
-         Total SCF energy =    -74.958512954464
-      One-electron energy =   -121.077719341748
-      Two-electron energy =     37.654676496418
- Nuclear repulsion energy =      8.464529890866
+         Total SCF energy =    -74.957263396532
+      One-electron energy =   -121.076899359332
+      Two-electron energy =     37.662075187593
+ Nuclear repulsion energy =      8.457560775208
 
         Time for solution =      0.0s
 
 
  Line search: 
-     step= 1.00 grad=-2.2D-02 hess= 1.9D-02 energy=    -74.958513 mode=downhill
- new step= 0.59                   predicted energy=    -74.961651
+     step= 1.00 grad=-2.4D-02 hess= 2.0D-02 energy=    -74.957263 mode=downhill
+ new step= 0.61                   predicted energy=    -74.960289
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -572,9 +572,9 @@
 
   No.       Tag          Charge          X              Y              Z
  ---- ---------------- ---------- -------------- -------------- --------------
-    1 O                    8.0000     0.00000000     0.00000000    -0.08098949
-    2 H                    1.0000     0.81941072     0.00000000    -0.65950525
-    3 H                    1.0000    -0.81941072     0.00000000    -0.65950525
+    1 O                    8.0000     0.00000000     0.00000000    -0.08780044
+    2 H                    1.0000     0.82769130     0.00000000    -0.65609978
+    3 H                    1.0000    -0.82769130     0.00000000    -0.65609978
 
       Atomic Mass 
       ----------- 
@@ -583,13 +583,13 @@
       H                  1.007825
 
 
- Effective nuclear repulsion energy (a.u.)       8.7639703095
+ Effective nuclear repulsion energy (a.u.)       8.7526862833
 
             Nuclear Dipole moment (a.u.) 
             ----------------------------
         X                 Y               Z
  ---------------- ---------------- ----------------
-     0.0000000000     0.0000000000    -3.7169520023
+     0.0000000000     0.0000000000    -3.8070477990
 
       Symmetry information
       --------------------
@@ -621,10 +621,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       2.8s
+ Forming initial guess at       0.4s
 
 
- Starting SCF solution at       2.8s
+ Starting SCF solution at       0.4s
 
  Local filesystem for scratch_dir
 
@@ -632,10 +632,10 @@
        Final RHF  results 
        ------------------ 
 
-         Total SCF energy =    -74.961306735770
-      One-electron energy =   -121.646779135704
-      Two-electron energy =     37.921502090460
- Nuclear repulsion energy =      8.763970309474
+         Total SCF energy =    -74.959903953157
+      One-electron energy =   -121.638316041438
+      Two-electron energy =     37.925725804968
+ Nuclear repulsion energy =      8.752686283312
 
         Time for solution =      0.0s
 
@@ -649,15 +649,15 @@
 
     atom               coordinates                        gradient
                  x          y          z           x          y          z
-   1 O       0.000000   0.000000  -0.153048    0.000000   0.000000  -0.016730
-   2 H       1.548462   0.000000  -1.246284    0.031449   0.000000   0.008365
-   3 H      -1.548462   0.000000  -1.246284   -0.031449   0.000000   0.008365
+   1 O       0.000000   0.000000  -0.165919    0.000000   0.000000  -0.021205
+   2 H       1.564110   0.000000  -1.239849    0.034780   0.000000   0.010603
+   3 H      -1.564110   0.000000  -1.239849   -0.034780   0.000000   0.010603
 
   no constraints, skipping    0.0000000000000000     
 
   Step       Energy      Delta E   Gmax     Grms     Xrms     Xmax   Walltime
   ---- ---------------- -------- -------- -------- -------- -------- --------
-@    2     -74.96130674 -6.3D-03  0.02505  0.02235  0.03719  0.08424      3.0
+@    2     -74.95990395 -7.1D-03  0.02854  0.02478  0.03949  0.08751      0.4
                                                                     
 
 
@@ -669,11 +669,11 @@
 
       Type          Name      I     J     K     L     M      Value     Gradient
       ----------- --------  ----- ----- ----- ----- ----- ---------- ----------
-    1 Stretch                  1     2                       1.00305    0.02087
-    2 Stretch                  1     3                       1.00305    0.02087
-    3 Bend                     2     1     3               109.55472    0.02505
+    1 Stretch                  1     2                       1.00401    0.02267
+    2 Stretch                  1     3                       1.00401    0.02267
+    3 Bend                     2     1     3               111.05240    0.02854
 
- Restricting large step in mode    1 eval= 7.1D-02 step=-3.3D-01 new=-3.0D-01
+ Restricting large step in mode    1 eval= 7.2D-02 step=-3.7D-01 new=-3.0D-01
  Restricting overall step due to large component. alpha=  0.99
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -698,10 +698,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       3.2s
+ Forming initial guess at       0.5s
 
 
- Starting SCF solution at       3.2s
+ Starting SCF solution at       0.5s
 
  Local filesystem for scratch_dir
 
@@ -709,17 +709,17 @@
        Final RHF  results 
        ------------------ 
 
-         Total SCF energy =    -74.965873877263
-      One-electron energy =   -121.792037285904
-      Two-electron energy =     37.944924384132
- Nuclear repulsion energy =      8.881239024510
+         Total SCF energy =    -74.965704852884
+      One-electron energy =   -121.794258786647
+      Two-electron energy =     37.951572216844
+ Nuclear repulsion energy =      8.876981716918
 
-        Time for solution =      0.1s
+        Time for solution =      0.0s
 
 
  Line search: 
-     step= 0.99 grad=-8.4D-03 hess= 3.9D-03 energy=    -74.965874 mode=accept  
- new step= 0.99                   predicted energy=    -74.965874
+     step= 0.99 grad=-9.7D-03 hess= 3.8D-03 energy=    -74.965705 mode=downhill
+ new step= 1.26                   predicted energy=    -74.965976
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -738,9 +738,9 @@
 
   No.       Tag          Charge          X              Y              Z
  ---- ---------------- ---------- -------------- -------------- --------------
-    1 O                    8.0000     0.00000000     0.00000000    -0.04355900
-    2 H                    1.0000     0.76254008     0.00000000    -0.67822050
-    3 H                    1.0000    -0.76254008     0.00000000    -0.67822050
+    1 O                    8.0000     0.00000000     0.00000000    -0.04074428
+    2 H                    1.0000     0.75493181     0.00000000    -0.67962786
+    3 H                    1.0000    -0.75493181     0.00000000    -0.67962786
 
       Atomic Mass 
       ----------- 
@@ -749,13 +749,13 @@
       H                  1.007825
 
 
- Effective nuclear repulsion energy (a.u.)       8.8812390245
+ Effective nuclear repulsion energy (a.u.)       8.9116042129
 
             Nuclear Dipole moment (a.u.) 
             ----------------------------
         X                 Y               Z
  ---------------- ---------------- ----------------
-     0.0000000000     0.0000000000    -3.2218183494
+     0.0000000000     0.0000000000    -3.1845850786
 
       Symmetry information
       --------------------
@@ -787,9 +787,24 @@
   symmetry adapt  = T
 
 
-  The SCF is already converged 
+ Forming initial guess at       0.5s
 
-         Total SCF energy =    -74.965873877263
+
+ Starting SCF solution at       0.5s
+
+ Local filesystem for scratch_dir
+
+
+       Final RHF  results 
+       ------------------ 
+
+         Total SCF energy =    -74.965888555312
+      One-electron energy =   -121.839854107814
+      Two-electron energy =     37.962361339583
+ Nuclear repulsion energy =      8.911604212919
+
+        Time for solution =      0.0s
+
 
                               NWChem Gradients Module
                               -----------------------
@@ -800,15 +815,15 @@
 
     atom               coordinates                        gradient
                  x          y          z           x          y          z
-   1 O       0.000000   0.000000  -0.082315    0.000000   0.000000   0.002245
-   2 H       1.440992   0.000000  -1.281651    0.003523   0.000000  -0.001122
-   3 H      -1.440992   0.000000  -1.281651   -0.003523   0.000000  -0.001122
+   1 O       0.000000   0.000000  -0.076996    0.000000   0.000000   0.001121
+   2 H       1.426614   0.000000  -1.284310   -0.001575   0.000000  -0.000560
+   3 H      -1.426614   0.000000  -1.284310    0.001575   0.000000  -0.000560
 
   no constraints, skipping    0.0000000000000000     
 
   Step       Energy      Delta E   Gmax     Grms     Xrms     Xmax   Walltime
   ---- ---------------- -------- -------- -------- -------- -------- --------
-@    3     -74.96587388 -4.6D-03  0.00343  0.00291  0.05917  0.11111      3.8
+@    3     -74.96588856 -6.0D-03  0.00143  0.00107  0.07508  0.14087      0.6
                                                                     
 
 
@@ -820,9 +835,9 @@
 
       Type          Name      I     J     K     L     M      Value     Gradient
       ----------- --------  ----- ----- ----- ----- ----- ---------- ----------
-    1 Stretch                  1     2                       0.99210    0.00343
-    2 Stretch                  1     3                       0.99210    0.00343
-    3 Bend                     2     1     3               100.45883    0.00138
+    1 Stretch                  1     2                       0.98899   -0.00084
+    2 Stretch                  1     3                       0.98899   -0.00084
+    3 Bend                     2     1     3                99.51887   -0.00143
 
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -846,10 +861,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       4.0s
+ Forming initial guess at       0.6s
 
 
- Starting SCF solution at       4.0s
+ Starting SCF solution at       0.6s
 
  Local filesystem for scratch_dir
 
@@ -857,16 +872,16 @@
        Final RHF  results 
        ------------------ 
 
-         Total SCF energy =    -74.965901068417
-      One-electron energy =   -121.834187413543
-      Two-electron energy =     37.961574308324
- Nuclear repulsion energy =      8.906712036802
+         Total SCF energy =    -74.965901078336
+      One-electron energy =   -121.833399943947
+      Two-electron energy =     37.961588102053
+ Nuclear repulsion energy =      8.905910763558
 
         Time for solution =      0.0s
 
 
  Line search: 
-     step= 1.00 grad=-5.7D-05 hess= 3.0D-05 energy=    -74.965901 mode=accept  
+     step= 1.00 grad=-2.8D-05 hess= 1.5D-05 energy=    -74.965901 mode=accept  
  new step= 1.00                   predicted energy=    -74.965901
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -885,9 +900,9 @@
 
   No.       Tag          Charge          X              Y              Z
  ---- ---------------- ---------- -------------- -------------- --------------
-    1 O                    8.0000     0.00000000     0.00000000    -0.04257325
-    2 H                    1.0000     0.75778422     0.00000000    -0.67871338
-    3 H                    1.0000    -0.75778422     0.00000000    -0.67871338
+    1 O                    8.0000     0.00000000     0.00000000    -0.04298667
+    2 H                    1.0000     0.75838361     0.00000000    -0.67850667
+    3 H                    1.0000    -0.75838361     0.00000000    -0.67850667
 
       Atomic Mass 
       ----------- 
@@ -896,13 +911,13 @@
       H                  1.007825
 
 
- Effective nuclear repulsion energy (a.u.)       8.9067120368
+ Effective nuclear repulsion energy (a.u.)       8.9059107636
 
             Nuclear Dipole moment (a.u.) 
             ----------------------------
         X                 Y               Z
  ---------------- ---------------- ----------------
-     0.0000000000     0.0000000000    -3.2087788142
+     0.0000000000     0.0000000000    -3.2142475485
 
       Symmetry information
       --------------------
@@ -936,7 +951,7 @@
 
   The SCF is already converged 
 
-         Total SCF energy =    -74.965901068417
+         Total SCF energy =    -74.965901078336
 
                               NWChem Gradients Module
                               -----------------------
@@ -947,15 +962,15 @@
 
     atom               coordinates                        gradient
                  x          y          z           x          y          z
-   1 O       0.000000   0.000000  -0.080452    0.000000   0.000000   0.000163
-   2 H       1.432005   0.000000  -1.282582   -0.000129   0.000000  -0.000082
-   3 H      -1.432005   0.000000  -1.282582    0.000129   0.000000  -0.000082
+   1 O       0.000000   0.000000  -0.081233    0.000000   0.000000  -0.000091
+   2 H       1.433137   0.000000  -1.282192    0.000157   0.000000   0.000046
+   3 H      -1.433137   0.000000  -1.282192   -0.000157   0.000000   0.000046
 
   no constraints, skipping    0.0000000000000000     
 
   Step       Energy      Delta E   Gmax     Grms     Xrms     Xmax   Walltime
   ---- ---------------- -------- -------- -------- -------- -------- --------
-@    4     -74.96590107 -2.7D-05  0.00014  0.00009  0.00430  0.00899      4.4
+@    4     -74.96590108 -1.3D-05  0.00013  0.00011  0.00352  0.00651      0.7
                                      ok       ok                    
 
 
@@ -967,9 +982,9 @@
 
       Type          Name      I     J     K     L     M      Value     Gradient
       ----------- --------  ----- ----- ----- ----- ----- ---------- ----------
-    1 Stretch                  1     2                       0.98940   -0.00005
-    2 Stretch                  1     3                       0.98940   -0.00005
-    3 Bend                     2     1     3                99.97483   -0.00014
+    1 Stretch                  1     2                       0.98946    0.00009
+    2 Stretch                  1     3                       0.98946    0.00009
+    3 Bend                     2     1     3               100.07447    0.00013
 
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -992,10 +1007,10 @@
   symmetry adapt  = T
 
 
- Forming initial guess at       4.6s
+ Forming initial guess at       0.7s
 
 
- Starting SCF solution at       4.6s
+ Starting SCF solution at       0.7s
 
  Local filesystem for scratch_dir
 
@@ -1003,16 +1018,16 @@
        Final RHF  results 
        ------------------ 
 
-         Total SCF energy =    -74.965901192487
-      One-electron energy =   -121.834145718768
-      Two-electron energy =     37.961745716328
- Nuclear repulsion energy =      8.906498809953
+         Total SCF energy =    -74.965901192493
+      One-electron energy =   -121.834113604233
+      Two-electron energy =     37.961728999354
+ Nuclear repulsion energy =      8.906483412386
 
         Time for solution =      0.0s
 
 
  Line search: 
-     step= 1.00 grad=-2.5D-07 hess= 1.3D-07 energy=    -74.965901 mode=accept  
+     step= 1.00 grad=-2.3D-07 hess= 1.1D-07 energy=    -74.965901 mode=accept  
  new step= 1.00                   predicted energy=    -74.965901
   no constraints, skipping    0.0000000000000000     
   no constraints, skipping    0.0000000000000000     
@@ -1030,9 +1045,9 @@
 
   No.       Tag          Charge          X              Y              Z
  ---- ---------------- ---------- -------------- -------------- --------------
-    1 O                    8.0000     0.00000000     0.00000000    -0.04280173
-    2 H                    1.0000     0.75808319     0.00000000    -0.67859914
-    3 H                    1.0000    -0.75808319     0.00000000    -0.67859914
+    1 O                    8.0000     0.00000000     0.00000000    -0.04279873
+    2 H                    1.0000     0.75808183     0.00000000    -0.67860063
+    3 H                    1.0000    -0.75808183     0.00000000    -0.67860063
 
       Atomic Mass 
       ----------- 
@@ -1041,13 +1056,13 @@
       H                  1.007825
 
 
- Effective nuclear repulsion energy (a.u.)       8.9064988100
+ Effective nuclear repulsion energy (a.u.)       8.9064834124
 
             Nuclear Dipole moment (a.u.) 
             ----------------------------
         X                 Y               Z
  ---------------- ---------------- ----------------
-     0.0000000000     0.0000000000    -3.2118011503
+     0.0000000000     0.0000000000    -3.2117615257
 
       Symmetry information
       --------------------
@@ -1081,7 +1096,7 @@
 
   The SCF is already converged 
 
-         Total SCF energy =    -74.965901192487
+         Total SCF energy =    -74.965901192493
 
                               NWChem Gradients Module
                               -----------------------
@@ -1092,15 +1107,15 @@
 
     atom               coordinates                        gradient
                  x          y          z           x          y          z
-   1 O       0.000000   0.000000  -0.080884    0.000000   0.000000  -0.000004
-   2 H       1.432569   0.000000  -1.282366    0.000000   0.000000   0.000002
-   3 H      -1.432569   0.000000  -1.282366   -0.000000   0.000000   0.000002
+   1 O       0.000000   0.000000  -0.080878    0.000000   0.000000   0.000000
+   2 H       1.432567   0.000000  -1.282369    0.000001   0.000000  -0.000000
+   3 H      -1.432567   0.000000  -1.282369   -0.000001   0.000000  -0.000000
 
   no constraints, skipping    0.0000000000000000     
 
   Step       Energy      Delta E   Gmax     Grms     Xrms     Xmax   Walltime
   ---- ---------------- -------- -------- -------- -------- -------- --------
-@    5     -74.96590119 -1.2D-07  0.00000  0.00000  0.00032  0.00056      5.1
+@    5     -74.96590119 -1.1D-07  0.00000  0.00000  0.00031  0.00057      0.7
                                      ok       ok       ok       ok  
 
 
@@ -1112,9 +1127,9 @@
 
       Type          Name      I     J     K     L     M      Value     Gradient
       ----------- --------  ----- ----- ----- ----- ----- ---------- ----------
-    1 Stretch                  1     2                       0.98941   -0.00000
-    2 Stretch                  1     3                       0.98941   -0.00000
-    3 Bend                     2     1     3               100.02750    0.00000
+    1 Stretch                  1     2                       0.98941    0.00000
+    2 Stretch                  1     3                       0.98941    0.00000
+    3 Bend                     2     1     3               100.02700    0.00000
 
 
       ----------------------
@@ -1124,7 +1139,7 @@
 
   Step       Energy      Delta E   Gmax     Grms     Xrms     Xmax   Walltime
   ---- ---------------- -------- -------- -------- -------- -------- --------
-@    5     -74.96590119 -1.2D-07  0.00000  0.00000  0.00032  0.00056      5.1
+@    5     -74.96590119 -1.1D-07  0.00000  0.00000  0.00031  0.00057      0.7
                                      ok       ok       ok       ok  
 
 
@@ -1136,9 +1151,9 @@
 
       Type          Name      I     J     K     L     M      Value     Gradient
       ----------- --------  ----- ----- ----- ----- ----- ---------- ----------
-    1 Stretch                  1     2                       0.98941   -0.00000
-    2 Stretch                  1     3                       0.98941   -0.00000
-    3 Bend                     2     1     3               100.02750    0.00000
+    1 Stretch                  1     2                       0.98941    0.00000
+    2 Stretch                  1     3                       0.98941    0.00000
+    3 Bend                     2     1     3               100.02700    0.00000
 
 
 
@@ -1149,9 +1164,9 @@
 
   No.       Tag          Charge          X              Y              Z
  ---- ---------------- ---------- -------------- -------------- --------------
-    1 O                    8.0000     0.00000000     0.00000000    -0.04280173
-    2 H                    1.0000     0.75808319     0.00000000    -0.67859914
-    3 H                    1.0000    -0.75808319     0.00000000    -0.67859914
+    1 O                    8.0000     0.00000000     0.00000000    -0.04279873
+    2 H                    1.0000     0.75808183     0.00000000    -0.67860063
+    3 H                    1.0000    -0.75808183     0.00000000    -0.67860063
 
       Atomic Mass 
       ----------- 
@@ -1160,13 +1175,13 @@
       H                  1.007825
 
 
- Effective nuclear repulsion energy (a.u.)       8.9064988100
+ Effective nuclear repulsion energy (a.u.)       8.9064834124
 
             Nuclear Dipole moment (a.u.) 
             ----------------------------
         X                 Y               Z
  ---------------- ---------------- ----------------
-     0.0000000000     0.0000000000    -3.2118011503
+     0.0000000000     0.0000000000    -3.2117615257
 
       Symmetry information
       --------------------
@@ -1193,9 +1208,9 @@
 
       Type          Name      I     J     K     L     M      Value       Change
       ----------- --------  ----- ----- ----- ----- ----- ---------- ----------
-    1 Stretch                  1     2                       0.98941   -0.42481
-    2 Stretch                  1     3                       0.98941   -0.42481
-    3 Bend                     2     1     3               100.02750   10.02750
+    1 Stretch                  1     2                       0.98941   -0.42480
+    2 Stretch                  1     3                       0.98941   -0.42480
+    3 Bend                     2     1     3               100.02700   10.02700
 
  ==============================================================================
                                 internuclear distances
@@ -1223,7 +1238,7 @@
 
 
 
- Task  times  cpu:        4.5s     wall:        4.5s
+ Task  times  cpu:        0.6s     wall:        0.6s
 
 
                                 NWChem Input Module
@@ -1282,7 +1297,7 @@
  Max. records in memory =        3    Max. records in file   = ********
  No. of bits per label  =        8    No. of bits per value  =       64
 
- SCF residual:    6.4969077622718525E-007
+ SCF residual:    2.5738429626448415E-008
 
 
 Iterative solution of linear equations
@@ -1291,14 +1306,14 @@ Iterative solution of linear equations
   Maximum subspace       90
         Iterations       50
        Convergence  1.0D-04
-        Start time      5.8
+        Start time      0.8
 
 
    iter   nsub   residual    time
    ----  ------  --------  ---------
-     1      9    3.13D-01       5.8
-     2     18    2.13D-02       5.8
-     3     27    8.89D-13       5.9
+     1      9    3.13D-01       0.8
+     2     18    2.13D-02       0.8
+     3     27    5.56D-14       0.8
 
  Parallel integral file used       1 records with       0 large values
 
@@ -1311,26 +1326,26 @@ Iterative solution of linear equations
   
   
  X vector of derivative dipole (au) [debye/angstrom]
- d_dipole_x/<atom=   1,x> =    -0.0312     [   -0.1496]
- d_dipole_x/<atom=   1,y> =    -0.0000     [   -0.0000]
+ d_dipole_x/<atom=   1,x> =    -0.0311     [   -0.1496]
+ d_dipole_x/<atom=   1,y> =     0.0000     [    0.0000]
  d_dipole_x/<atom=   1,z> =     0.0000     [    0.0000]
  d_dipole_x/<atom=   2,x> =     0.0156     [    0.0748]
- d_dipole_x/<atom=   2,y> =     0.0000     [    0.0000]
+ d_dipole_x/<atom=   2,y> =    -0.0000     [   -0.0000]
  d_dipole_x/<atom=   2,z> =     0.2216     [    1.0646]
  d_dipole_x/<atom=   3,x> =     0.0156     [    0.0748]
- d_dipole_x/<atom=   3,y> =     0.0000     [    0.0000]
+ d_dipole_x/<atom=   3,y> =    -0.0000     [   -0.0000]
  d_dipole_x/<atom=   3,z> =    -0.2216     [   -1.0646]
   
  Y vector of derivative dipole (au) [debye/angstrom]
  d_dipole_y/<atom=   1,x> =    -0.0000     [   -0.0000]
  d_dipole_y/<atom=   1,y> =    -0.5597     [   -2.6883]
- d_dipole_y/<atom=   1,z> =     0.0000     [    0.0000]
+ d_dipole_y/<atom=   1,z> =    -0.0000     [   -0.0000]
  d_dipole_y/<atom=   2,x> =     0.0000     [    0.0000]
  d_dipole_y/<atom=   2,y> =     0.2798     [    1.3441]
- d_dipole_y/<atom=   2,z> =    -0.0000     [   -0.0000]
+ d_dipole_y/<atom=   2,z> =     0.0000     [    0.0000]
  d_dipole_y/<atom=   3,x> =     0.0000     [    0.0000]
  d_dipole_y/<atom=   3,y> =     0.2798     [    1.3441]
- d_dipole_y/<atom=   3,z> =    -0.0000     [   -0.0000]
+ d_dipole_y/<atom=   3,z> =     0.0000     [    0.0000]
   
  Z vector of derivative dipole (au) [debye/angstrom]
  d_dipole_z/<atom=   1,x> =    -0.0000     [   -0.0000]
@@ -1360,9 +1375,9 @@ Iterative solution of linear equations
  ---------------------------- Atom information ----------------------------
      atom    #        X              Y              Z            mass
  --------------------------------------------------------------------------
-    O        1  0.0000000D+00  0.0000000D+00 -8.0883538D-02  1.5994910D+01
-    H        2  1.4325695D+00  0.0000000D+00 -1.2823664D+00  1.0078250D+00
-    H        3 -1.4325695D+00  0.0000000D+00 -1.2823664D+00  1.0078250D+00
+    O        1  0.0000000D+00  0.0000000D+00 -8.0877877D-02  1.5994910D+01
+    H        2  1.4325669D+00  0.0000000D+00 -1.2823693D+00  1.0078250D+00
+    H        3 -1.4325669D+00  0.0000000D+00 -1.2823693D+00  1.0078250D+00
  --------------------------------------------------------------------------
 
 
@@ -1375,15 +1390,15 @@ Iterative solution of linear equations
 
                1            2            3            4            5            6            7            8            9
    ----- ----- ----- ----- -----
-    1    5.02636D+01
-    2    1.11617D-17 -2.00734D-04
-    3   -5.12585D-14  2.29369D-15  3.96938D+01
-    4   -1.00120D+02  2.66032D-15  5.38767D+01  4.35508D+02
-    5   -8.61522D-17  3.99845D-04  2.80944D-15  5.06511D-15 -7.29125D-04
-    6    8.39702D+01 -3.42929D-15 -7.90662D+01 -2.74578D+02  9.32014D-15  2.97772D+02
-    7   -1.00120D+02  7.05657D-16 -5.38767D+01 -3.66480D+01 -3.91909D-15 -5.99435D+01  4.35508D+02
-    8    4.16861D-17  3.99845D-04  2.19537D-16 -4.38824D-15 -8.63782D-04 -5.41492D-15  4.22217D-15 -7.29125D-04
-    9   -8.39702D+01 -5.70835D-15 -7.90662D+01  5.99435D+01  1.41938D-14  1.72121D+01  2.74578D+02  8.55417D-15  2.97772D+02
+    1    5.02628D+01
+    2    2.19968D-16  2.27713D-05
+    3    7.28477D-15 -1.83031D-15  3.96937D+01
+    4   -1.00119D+02 -2.31107D-16  5.38759D+01  4.35503D+02
+    5   -4.43541D-16 -4.53571D-05  4.45621D-15  6.47065D-15  3.81488D-04
+    6    8.39694D+01  3.83956D-15 -7.90661D+01 -2.74575D+02  1.07075D-14  2.97772D+02
+    7   -1.00119D+02  9.55925D-16 -5.38759D+01 -3.66490D+01  3.25684D-16 -5.99432D+01  4.35503D+02
+    8   -4.32771D-16 -4.53571D-05 -5.28744D-15 -4.97296D-15 -2.00794D-04  7.46933D-15  6.69704D-15  3.81488D-04
+    9   -8.39694D+01  3.45203D-15 -7.90661D+01  5.99432D+01  1.00676D-14  1.72120D+01  2.74575D+02 -2.38177D-14  2.97772D+02
 
 
 
@@ -1394,23 +1409,23 @@ Iterative solution of linear equations
 
                     1           2           3           4           5           6
  
- Frequency         -6.88       -3.96       -0.00        0.00        0.00        1.89
+ Frequency          0.00        0.00        0.00        2.32        3.39        3.92
  
-           1     0.00000     0.05187    -0.00000     0.23563     0.00000     0.00000
-           2    -0.08365     0.00000     0.00000     0.00000     0.23563    -0.00000
-           3     0.00000    -0.00000    -0.23563    -0.00000     0.00000     0.00000
-           4     0.00000    -0.41159    -0.00000     0.23563     0.00000     0.00000
-           5     0.66377     0.00000     0.00000     0.00000     0.23563    -0.70436
-           6     0.00000    -0.55260    -0.23563    -0.00000     0.00000     0.00000
-           7     0.00000    -0.41159    -0.00000     0.23563     0.00000     0.00000
-           8     0.66377     0.00000     0.00000     0.00000     0.23563     0.70436
-           9     0.00000     0.55260    -0.23563    -0.00000     0.00000     0.00000
+           1     0.23563    -0.00000     0.00000     0.00000     0.05187     0.00000
+           2     0.00000     0.00000     0.23563    -0.08365     0.00000    -0.00000
+           3    -0.00000    -0.23563     0.00000     0.00000    -0.00000     0.00000
+           4     0.23563    -0.00000     0.00000     0.00000    -0.41159     0.00000
+           5     0.00000     0.00000     0.23563     0.66377     0.00000    -0.70436
+           6     0.00000    -0.23563     0.00000     0.00000    -0.55259     0.00000
+           7     0.23563    -0.00000     0.00000     0.00000    -0.41159     0.00000
+           8     0.00000     0.00000     0.23563     0.66377     0.00000     0.70436
+           9    -0.00000    -0.23563     0.00000     0.00000     0.55259     0.00000
 
                     7           8           9
  
- Frequency       2170.04     4140.01     4391.08
+ Frequency       2170.05     4139.99     4391.06
  
-           1     0.00000    -0.00000    -0.06562
+           1     0.00000     0.00000    -0.06562
            2     0.00000     0.00000     0.00000
            3     0.06612     0.05123     0.00000
            4    -0.43141     0.55678     0.52076
@@ -1426,15 +1441,15 @@ Iterative solution of linear equations
  Normal Eigenvalue ||         Derivative Dipole Moments (debye/angs)
   Mode   [cm**-1]  ||      [d/dqX]             [d/dqY]           [d/dqZ]
  ------ ---------- || ------------------ ------------------ -----------------
-    1       -6.884 ||       0.000               2.009            -0.000
-    2       -3.964 ||      -1.246              -0.000            -0.000
-    3       -0.002 ||      -0.000              -0.000            -0.000
-    4        0.000 ||      -0.000              -0.000            -0.000
-    5        0.004 ||      -0.000              -0.000            -0.000
-    6        1.886 ||      -0.000               0.000             0.000
-    7     2170.037 ||      -0.000              -0.000             0.414
-    8     4140.011 ||      -0.000               0.000             1.024
-    9     4391.082 ||      -0.842               0.000            -0.000
+    1        0.000 ||       0.000               0.000            -0.000
+    2        0.003 ||       0.000               0.000            -0.000
+    3        0.004 ||      -0.000               0.000            -0.000
+    4        2.319 ||      -0.000               2.009             0.000
+    5        3.394 ||      -1.246              -0.000             0.000
+    6        3.923 ||      -0.000               0.000             0.000
+    7     2170.045 ||       0.000               0.000             0.414
+    8     4139.993 ||      -0.000               0.000            -1.024
+    9     4391.059 ||      -0.842               0.000            -0.000
  ----------------------------------------------------------------------------
 
 
@@ -1445,15 +1460,15 @@ Iterative solution of linear equations
  Normal Eigenvalue ||                 Infra Red Intensities
   Mode   [cm**-1]  || [atomic units] [(debye/angs)**2] [(KM/mol)] [arbitrary]
  ------ ---------- || -------------- ----------------- ---------- -----------
-    1       -6.884 ||    0.174993           4.037       170.591      48.330
-    2       -3.964 ||    0.067284           1.552        65.591      18.583
-    3       -0.002 ||    0.000000           0.000         0.000       0.000
-    4        0.000 ||    0.000000           0.000         0.000       0.000
-    5        0.004 ||    0.000000           0.000         0.000       0.000
-    6        1.886 ||    0.000000           0.000         0.000       0.000
-    7     2170.037 ||    0.007424           0.171         7.238       2.050
-    8     4140.011 ||    0.045427           1.048        44.285      12.546
-    9     4391.082 ||    0.030743           0.709        29.970       8.491
+    1        0.000 ||    0.000000           0.000         0.000       0.000
+    2        0.003 ||    0.000000           0.000         0.000       0.000
+    3        0.004 ||    0.000000           0.000         0.000       0.000
+    4        2.319 ||    0.174990           4.037       170.589      48.329
+    5        3.394 ||    0.067283           1.552        65.591      18.583
+    6        3.923 ||    0.000000           0.000         0.000       0.000
+    7     2170.045 ||    0.007424           0.171         7.237       2.050
+    8     4139.993 ||    0.045428           1.048        44.285      12.546
+    9     4391.059 ||    0.030744           0.709        29.971       8.491
  ----------------------------------------------------------------------------
 
 
@@ -1463,7 +1478,7 @@ Iterative solution of linear equations
         Vibrational analysis via the FX method 
   --- with translations and rotations projected out ---
   --- via the Eckart algorithm                      ---
- Projected Nuclear Hessian trans-rot subspace norm:3.6015D-32
+ Projected Nuclear Hessian trans-rot subspace norm:5.7778D-33
                          (should be close to zero!) 
 
           --------------------------------------------------------
@@ -1473,31 +1488,31 @@ Iterative solution of linear equations
 
                1            2            3            4            5            6            7            8            9
    ----- ----- ----- ----- -----
-    1    5.02637D+01
-    2    1.20409D-31  0.00000D+00
-    3   -1.78933D-14 -1.15593D-30  3.96938D+01
-    4   -1.00120D+02 -1.53500D-30  5.38767D+01  4.35508D+02
-    5   -1.43906D-31 -5.27420D-20 -1.15125D-30 -8.12165D-31  0.00000D+00
-    6    8.39700D+01  3.06999D-30 -7.90662D+01 -2.74577D+02  1.52878D-30  2.97772D+02
-    7   -1.00120D+02  3.83749D-31 -5.38767D+01 -3.66478D+01  1.52878D-30 -5.99431D+01  4.35508D+02
-    8    0.00000D+00 -5.27420D-20 -1.39109D-30  5.73293D-31  0.00000D+00  2.29317D-30  1.91098D-31  0.00000D+00
-    9   -8.39700D+01  3.06999D-30 -7.90662D+01  5.99431D+01  6.11512D-30  1.72126D+01  2.74577D+02  4.58634D-30  2.97772D+02
+    1    5.02628D+01
+    2   -1.20409D-31  0.00000D+00
+    3    2.22671D-15  1.54123D-30  3.96937D+01
+    4   -1.00119D+02  8.63435D-31  5.38759D+01  4.35503D+02
+    5   -4.79686D-32 -6.59275D-21  1.91874D-30  1.52878D-30  0.00000D+00
+    6    8.39694D+01 -3.06999D-30 -7.90661D+01 -2.74575D+02 -3.05756D-30  2.97772D+02
+    7   -1.00119D+02 -3.83749D-31 -5.38759D+01 -3.66490D+01 -7.16616D-31 -5.99433D+01  4.35503D+02
+    8    0.00000D+00 -6.59275D-21  3.83749D-31 -2.29317D-30  0.00000D+00 -2.19762D-30 -7.64391D-31  0.00000D+00
+    9   -8.39694D+01 -2.68624D-30 -7.90661D+01  5.99433D+01 -4.58634D-30  1.72123D+01  2.74575D+02 -6.11512D-30  2.97772D+02
 
  center of mass
  --------------
- x =   0.00000000 y =   0.00000000 z =  -0.21534737
+ x =   0.00000000 y =   0.00000000 z =  -0.21534266
 
  moments of inertia (a.u.)
  ------------------
-           2.584073631906           0.000000000000           0.000000000000
-           0.000000000000           6.720702152664           0.000000000000
-           0.000000000000           0.000000000000           4.136628520758
+           2.584110155731           0.000000000000           0.000000000000
+           0.000000000000           6.720723931602           0.000000000000
+           0.000000000000           0.000000000000           4.136613775871
 
  Rotational Constants
  --------------------
- A=  23.296618 cm-1  ( 33.517887 K)
- B=  14.552957 cm-1  ( 20.937991 K)
- C=   8.957424 cm-1  ( 12.887446 K)
+ A=  23.296288 cm-1  ( 33.517414 K)
+ B=  14.553009 cm-1  ( 20.938065 K)
+ C=   8.957395 cm-1  ( 12.887405 K)
 
 
  Temperature                      =   298.15K
@@ -1526,31 +1541,31 @@ Iterative solution of linear equations
 
                     1           2           3           4           5           6
  
- P.Frequency        0.00        0.00        0.00        0.00        0.00        0.00
+ P.Frequency       -0.00       -0.00       -0.00        0.00        0.00        0.00
  
-           1     0.00000     0.00000     0.00000     0.00569     0.23578    -0.05089
-           2     0.25004     0.00000     0.00000     0.00000     0.00000     0.00000
-           3     0.00000     0.00000     0.00000    -0.23417    -0.00000    -0.02619
-           4     0.00000     0.00000     0.00000    -0.04583     0.23447     0.40970
-           5     0.00000     0.99611     0.00000     0.00000     0.00000     0.00000
-           6     0.00000     0.00000     0.00000    -0.29560    -0.00156     0.52298
-           7     0.00000     0.00000     0.00000    -0.04583     0.23447     0.40970
-           8     0.00000     0.00000     0.99611     0.00000     0.00000     0.00000
-           9     0.00000     0.00000     0.00000    -0.17275     0.00155    -0.57536
+           1    -0.05089     0.00569     0.23578     0.00000     0.00000     0.00000
+           2     0.00000     0.00000     0.00000     0.25004     0.00000     0.00000
+           3    -0.02619    -0.23417    -0.00000     0.00000     0.00000     0.00000
+           4     0.40970    -0.04583     0.23447     0.00000     0.00000     0.00000
+           5     0.00000     0.00000     0.00000     0.00000     0.99611     0.00000
+           6     0.52298    -0.29560    -0.00156     0.00000     0.00000     0.00000
+           7     0.40970    -0.04583     0.23447     0.00000     0.00000     0.00000
+           8     0.00000     0.00000     0.00000     0.00000     0.00000     0.99611
+           9    -0.57536    -0.17275     0.00155     0.00000     0.00000     0.00000
 
                     7           8           9
  
- P.Frequency     2170.04     4140.01     4391.08
+ P.Frequency     2170.05     4139.99     4391.06
  
            1     0.00000    -0.00000     0.06562
            2     0.00000     0.00000     0.00000
            3     0.06612     0.05123    -0.00000
            4    -0.43141     0.55678    -0.52076
            5     0.00000     0.00000     0.00000
-           6    -0.52470    -0.40655     0.43675
+           6    -0.52470    -0.40655     0.43676
            7     0.43141    -0.55678    -0.52076
            8     0.00000     0.00000     0.00000
-           9    -0.52470    -0.40655    -0.43675
+           9    -0.52470    -0.40655    -0.43676
 
 
 
@@ -1558,15 +1573,15 @@ Iterative solution of linear equations
  Normal Eigenvalue ||    Projected Derivative Dipole Moments (debye/angs)
   Mode   [cm**-1]  ||      [d/dqX]             [d/dqY]           [d/dqZ]
  ------ ---------- || ------------------ ------------------ -----------------
-    1        0.000 ||      -0.000              -0.672            -0.000
-    2        0.000 ||       0.000               1.339            -0.000
-    3        0.000 ||       0.000               1.339             0.000
-    4        0.000 ||       0.138               0.000             0.000
-    5        0.000 ||      -0.004              -0.000            -0.000
-    6        0.000 ||      -1.238              -0.000             0.000
-    7     2170.037 ||      -0.000              -0.000             0.414
-    8     4140.011 ||       0.000               0.000             1.024
-    9     4391.080 ||      -0.842               0.000            -0.000
+    1       -0.000 ||      -1.238              -0.000             0.000
+    2       -0.000 ||       0.138               0.000             0.000
+    3       -0.000 ||      -0.004              -0.000            -0.000
+    4        0.000 ||       0.000              -0.672            -0.000
+    5        0.000 ||      -0.000               1.339            -0.000
+    6        0.000 ||      -0.000               1.339             0.000
+    7     2170.045 ||      -0.000               0.000             0.414
+    8     4139.993 ||       0.000              -0.000             1.024
+    9     4391.059 ||      -0.842               0.000            -0.000
  ----------------------------------------------------------------------------
 
 
@@ -1577,22 +1592,22 @@ Iterative solution of linear equations
  Normal Eigenvalue ||           Projected Infra Red Intensities
   Mode   [cm**-1]  || [atomic units] [(debye/angs)**2] [(KM/mol)] [arbitrary]
  ------ ---------- || -------------- ----------------- ---------- -----------
-    1        0.000 ||    0.019584           0.452        19.092       5.409
-    2        0.000 ||    0.077704           1.793        75.750      21.461
-    3        0.000 ||    0.077704           1.793        75.750      21.461
-    4        0.000 ||    0.000831           0.019         0.810       0.230
-    5        0.000 ||    0.000001           0.000         0.001       0.000
-    6        0.000 ||    0.066452           1.533        64.781      18.353
-    7     2170.037 ||    0.007424           0.171         7.238       2.050
-    8     4140.011 ||    0.045427           1.048        44.285      12.546
-    9     4391.080 ||    0.030743           0.709        29.970       8.491
+    1       -0.000 ||    0.066452           1.533        64.780      18.353
+    2       -0.000 ||    0.000831           0.019         0.810       0.230
+    3       -0.000 ||    0.000001           0.000         0.001       0.000
+    4        0.000 ||    0.019584           0.452        19.091       5.409
+    5        0.000 ||    0.077703           1.793        75.749      21.460
+    6        0.000 ||    0.077703           1.793        75.749      21.460
+    7     2170.045 ||    0.007424           0.171         7.237       2.050
+    8     4139.993 ||    0.045428           1.048        44.285      12.546
+    9     4391.059 ||    0.030744           0.709        29.971       8.491
  ----------------------------------------------------------------------------
 
 
 
  vib:animation  F
 
- Task  times  cpu:        1.2s     wall:        1.2s
+ Task  times  cpu:        0.1s     wall:        0.1s
  Summary of allocated global arrays
 -----------------------------------
   No active global arrays
@@ -1673,4 +1688,4 @@ MA usage statistics:
    K. Glaesemann, G. Sandrone, M. Stave, H. Taylor, G. Thomas, J. H. van Lenthe,
                                A. T. Wong, Z. Zhang.
 
- Total times  cpu:        6.9s     wall:        6.9s
+ Total times  cpu:        0.8s     wall:        0.8s

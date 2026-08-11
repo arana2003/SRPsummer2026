@@ -1,17 +1,18 @@
 #!/bin/bash
 
 set -euo pipefail
-pwd
-source /workspace/inputs/system.vars
+source /workspace/system.vars
 cd /workspace/simulations/${SYS_NAME}/pbqff
-
-conda activate base
 
 # -- run PBQFF
 echo "Running PBQFF..."
-pbqff ${SYS_NAME}.toml
-/workspace/scripts/qfflist2.py pbqff.out ${SYS_NAME}
-rm job.*
-rm main*
+
+if [ -f "pbqff.out" ]; then
+    pbqff -c ${SYS_NAME}.toml
+else
+    pbqff -o ${SYS_NAME}.toml
+fi
+
+conda run -n base /workspace/scripts/qfflist2.py pbqff.out ${SYS_NAME}
 
 echo "CPU step complete."

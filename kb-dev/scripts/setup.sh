@@ -3,7 +3,8 @@
 module load conda
 conda activate base
 
-cd /global/cfs/cdirs/m5128/kbilal/interface
+source /workspace/system.vars
+cd ${MLCPPIPE}
 
 # Declare scripts files as executables
 chmod -R +x scripts
@@ -12,15 +13,19 @@ chmod -R a+r inputs
 chmod -R a+x slurm_jobs
 
 # Create system directory skeleton
-cd /global/cfs/cdirs/m5128/kbilal/interface/simulations/${SYS_NAME}
+mkdir -p "simulations/${SYS_NAME}"
+cd ${MLCPPIPE}/simulations/${SYS_NAME}
 
-mkdir -p /global/cfs/cdirs/m5128/kbilal/interface/simulations/${SYS_NAME}/pbqff
-mkdir -p /global/cfs/cdirs/m5128/kbilal/interface/simulations/${SYS_NAME}/nwchem
-mkdir -p /global/cfs/cdirs/m5128/kbilal/interface/simulations/${SYS_NAME}/mlcp
+export CHECKPOINT_FILE="simulations/${SYS_NAME}/pipeline.checkpoint"
+
+mkdir -p ${MLCPPIPE}/simulations/${SYS_NAME}/pbqff
+mkdir -p ${MLCPPIPE}/simulations/${SYS_NAME}/nwchem
+mkdir -p ${MLCPPIPE}/simulations/${SYS_NAME}/extension
+mkdir -p ${MLCPPIPE}/simulations/${SYS_NAME}/mlcp
 
 # -- process inputs
 echo "Processing inputs..."
-/global/cfs/cdirs/m5128/kbilal/interface/scripts/input.py ${INPUT}
+${MLCPPIPE}/scripts/input.py ${INPUT}
 mv ${SYS_NAME}.toml pbqff/${SYS_NAME}.toml
 mv intder.in pbqff
 mv ${SYS_NAME}.nw nwchem
