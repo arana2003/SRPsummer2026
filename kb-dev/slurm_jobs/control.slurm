@@ -1,13 +1,20 @@
 #!/bin/bash
 
-#SCRON -q cron
-#SCRON -C cron
-#SCRON -A m5128
-#SCRON -t 1-00:00:00
-#SCRON -o /global/cfs/cdirs/m5128/kbilal/interface/control.%j.out
-#SCRON --open-mode=append
-#SCRON --mail-user=kbilal@lbl.gov
-#SCRON --mail-type=BEGIN,END,FAIL
+#SBATCH --job-name=control
+#SBATCH --constraint=cpu
+#SBATCH --qos=debug
+#SBATCH --nodes=1
+#SBATCH --time=00:05:00
+#SBATCH --output=/global/cfs/cdirs/m5128/kbilal/interface/control_%j.out
+#SBATCH --error=/global/cfs/cdirs/m5128/kbilal/interface/control_%j.err
 
+# OpenMP settings:
+export OMP_NUM_THREADS=1
+export OMP_PLACES=threads
+export OMP_PROC_BIND=spread
+export RAYON_NUM_THREADS=128
 
-*/2 * * * * cd /global/cfs/cdirs/m5128/kbilal/interface && scripts/checkpoint.sh
+#run the application: 
+# applications may perform better with --gpu-bind=none instead of --gpu-bind=single:1
+# srun -n 1 -c 256 --cpu_bind=cores 
+scripts/checkpoint.sh

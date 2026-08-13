@@ -1,6 +1,4 @@
 FROM nvcr.io/nvidia/nvhpc:24.5-devel-cuda12.4-ubuntu22.04
-# nvcr.io/nvidia/cuda:12.9.2-cudnn-devel-ubuntu24.04
-# registry.nersc.gov/library/nersc-env/nersc-zen3-a100-ofi:0.5-devel-ubuntu24.04
 WORKDIR /opt
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -48,6 +46,7 @@ RUN \
     ocaml                  \
     ocaml-findlib          \
     ocamlbuild             \
+    parallel               \
     pkg-config             \
     slurm-client           \
     tar                    \
@@ -68,7 +67,6 @@ RUN \
     tar xvzf $mpich_prefix.tar.gz                                           && \
     cd $mpich_prefix                                                        && \
     ./configure  && \
-    # FFLAGS=-fallow-argument-mismatch FCFLAGS=-fallow-argument-mismatch
     make -j 16                                                              && \
     make install                                                            && \
     make clean                                                              && \
@@ -82,21 +80,9 @@ RUN wget https://repo.anaconda.com/miniconda/$installer && \
     /bin/bash $installer -b -p /opt/miniconda3          && \
     rm -rf $installer
 ENV PATH=/opt/miniconda3/bin:$PATH
-RUN conda install -y numpy scipy matplotlib setuptools mpi4py
+RUN conda install -y numpy scipy matplotlib setuptools mpi4py scikit-learn joblib
 
 # Update CMake
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-x86_64.tar.gz && \
     tar xzf cmake-3.29.6-linux-x86_64.tar.gz && \
     export PATH=/opt/cmake-3.29.6-linux-x86_64/bin:$PATH
-
-# WORKDIR /opt
-# RUN wget https://github.com/SchedMD/slurm/releases/download/slurm-26-05-0-1/slurm-26.05.0.tar.bz2 & \
-#     tar -xaf slurm-26.05.0.tar.bz2 && \
-#     rm -rf slurm-26.05.0.tar.bz2 && \
-#     cd slurm-26.05.0 && \
-#     ./configure --prefix=/slurm && \
-#     make install && \
-#     ldconfig -n /usr/lib
-#     # podman-hpc run --rm -it -v /usr/bin/sbatch:/usr/bin/sbatch:ro -v /usr/bin/srun:/usr/bin/srun:ro -v /usr/bin/scontrol:/usr/bin/scontrol:ro -v /usr/lib64/slurm:/usr/lib64/slurm:ro working
-#     # podman-hpc build -f ./containers/Containerfile_env -t env . && podman-hpc build -f ./containers/Containerfile_working -t working . && podman-hpc migrate working
-# ENV PATH=/opt/slurm*/sbin:$PATH
