@@ -1,0 +1,5 @@
+# f2 diagonal terms from calibrated MOPAC 1D GPR, Morse/tanh basis
+# y_i = tanh(alpha_i * q_i)
+1  1  7721.66982392
+2  2  7661.22177886
+3  3  1882.95169212
