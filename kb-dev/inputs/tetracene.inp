@@ -1,6 +1,15 @@
 # System Name
 system_name = tetracene
 
+# System Variables
+export WORKING="/global/cfs/cdirs/m5128/kbilal/interface"
+export MLCPPIPE="/pscratch/sd/k/kbilal/interface"
+export INPUT="${MLCPPIPE}/inputs/sample.inp"
+export PROJ="m5128"
+export EXTEND_PES="false"
+export SYS_NAME="h2o"
+--
+
 # Geometry
 C      0.0000   0.7088   0.0000
 C      0.0000  -0.7088   0.0000

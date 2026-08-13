@@ -1,33 +1,59 @@
-[2026-07-20T23:36:53Z WARN  pbqff] failed to remove '"./opt"' with No such file or directory (os error 2)
-[2026-07-20T23:36:53Z WARN  pbqff] failed to remove '"./pts"' with No such file or directory (os error 2)
-[2026-07-20T23:36:53Z WARN  pbqff] failed to remove '"./freqs"' with No such file or directory (os error 2)
-[2026-07-20T23:36:54Z DEBUG psqs::queue::drain] submitted chunk 0 after 0.5 s
-[2026-07-20T23:36:54Z DEBUG psqs::queue::drain] finished 1 jobs in 0.5 s
-[iter 0 2026-07-20 23:36:54 0.1 CPU s] 0 jobs remaining
-[2026-07-20T23:36:55Z DEBUG psqs::queue::drain] finished 0 jobs in 0.0 s
+[2026-08-08T08:50:14Z WARN  pbqff] failed to remove '"./opt"' with No such file or directory (os error 2)
+[2026-08-08T08:50:14Z DEBUG psqs::queue::drain] submitted chunk 0 after 0.1 s
+[2026-08-08T08:50:14Z DEBUG psqs::queue::drain] finished 1 jobs in 0.1 s
+[iter 0 2026-08-08 08:50:14 0.7 CPU s] 0 jobs remaining
+[2026-08-08T08:50:15Z DEBUG psqs::queue::drain] finished 0 jobs in 0.0 s
 finished dropping after 0.0 s
 finished dropping after 0.0 s
-0.0 s reading ok, 0.0 s writing input, 0.0 s writing script, 0.4 s submitting, 1.0 s sleeping, 0.0 s removing
-total optimize time: 0.2 sec
-[2026-07-20T23:37:34Z DEBUG psqs::queue::drain] submitted chunk 0 after 39.0 s
-[2026-07-20T23:37:34Z DEBUG psqs::queue::drain] finished 117 jobs in 39.1 s
-[iter 0 2026-07-20 23:37:34 0.4 CPU s] 0 jobs remaining
-[2026-07-20T23:37:35Z INFO  psqs::queue::drain] writing checkpoint to ./chk.json
-[2026-07-20T23:37:35Z ERROR psqs::queue::drain] failed to rename temporary file to ./chk.json with Os { code: 18, kind: CrossesDevices, message: "Invalid cross-device link" }
-[2026-07-20T23:37:35Z DEBUG psqs::queue::drain] finished 0 jobs in 0.0 s
+0.0 s reading ok, 0.0 s writing input, 0.0 s writing script, 0.1 s submitting, 1.0 s sleeping, 0.0 s removing
+total optimize time: 0.1 sec
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 14 after 0.5 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 3 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 0 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 5 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 6 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 7 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 2 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 1 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 8 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 11 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 13 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 12 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 4 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 9 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] submitted chunk 10 after 0.7 s
+[2026-08-08T08:50:16Z DEBUG psqs::queue::drain] finished 117 jobs in 0.7 s
+[iter 0 2026-08-08 08:50:16 2.0 CPU s] 0 jobs remaining
+[2026-08-08T08:50:17Z INFO  psqs::queue::drain] writing checkpoint to ./chk.json
+[2026-08-08T08:50:17Z DEBUG psqs::queue::drain] finished 0 jobs in 0.0 s
 finished dropping after 0.0 s
 finished dropping after 0.0 s
-0.0 s reading ok, 1.8 s writing input, 1.8 s writing script, 37.3 s submitting, 1.0 s sleeping, 0.0 s removing
-total job time: 25.4 sec
+0.0 s reading ok, 0.4 s writing input, 0.4 s writing script, 10.1 s submitting, 1.0 s sleeping, 0.0 s removing
+total job time: 7.8 sec
 failed to write spectro input to freqs/spectro.in for No such file or directory (os error 2)
-[2026-07-20T23:37:38Z WARN  pbqff::coord_type::normal] failed to move "./freqs" to "./hff/freqs" with No such file or directory (os error 2)
-[2026-07-20T23:38:25Z DEBUG psqs::queue::drain] submitted chunk 0 after 46.8 s
-[2026-07-20T23:38:25Z DEBUG psqs::queue::drain] finished 129 jobs in 46.8 s
-[iter 0 2026-07-20 23:38:25 0.7 CPU s] 0 jobs remaining
-[2026-07-20T23:38:26Z INFO  psqs::queue::drain] writing checkpoint to ./chk.json
-[2026-07-20T23:38:26Z ERROR psqs::queue::drain] failed to rename temporary file to ./chk.json with Os { code: 18, kind: CrossesDevices, message: "Invalid cross-device link" }
-[2026-07-20T23:38:26Z DEBUG psqs::queue::drain] finished 0 jobs in 0.0 s
+[2026-08-08T08:50:17Z WARN  pbqff::coord_type::normal] failed to move "./freqs" to "./hff3/freqs" with No such file or directory (os error 2)
+[2026-08-08T08:50:17Z DEBUG psqs::queue::drain] submitted chunk 16 after 0.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 1 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 10 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 0 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 2 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 5 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 9 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 3 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 8 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 12 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 15 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 7 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 4 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 13 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 6 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 14 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] submitted chunk 11 after 1.2 s
+[2026-08-08T08:50:18Z DEBUG psqs::queue::drain] finished 129 jobs in 1.2 s
+[iter 0 2026-08-08 08:50:18 3.3 CPU s] 0 jobs remaining
+[2026-08-08T08:50:19Z INFO  psqs::queue::drain] writing checkpoint to ./chk.json
+[2026-08-08T08:50:19Z DEBUG psqs::queue::drain] finished 0 jobs in 0.0 s
 finished dropping after 0.0 s
 finished dropping after 0.0 s
-0.0 s reading ok, 4.0 s writing input, 4.0 s writing script, 42.8 s submitting, 1.0 s sleeping, 0.0 s removing
-total job time: 27.2 sec
+0.0 s reading ok, 0.4 s writing input, 0.5 s writing script, 18.9 s submitting, 1.0 s sleeping, 0.0 s removing
+total job time: 11.4 sec

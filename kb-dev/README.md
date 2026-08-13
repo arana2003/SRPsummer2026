@@ -1,18 +1,18 @@
 ########################################################################
 #
-# Pipeline Automation for MLCP                                        #
-## Kaiwan Bilal, Phillip Thomas, Alexis Rana                         ##
+# Pipeline Automation for MLCP                                         #
+## Kaiwan Bilal, Phillip Thomas, Alexis Rana                          ##
 #
 ########################################################################
 
 ### The Pipeline
 
-Multi-Layer Cannonical Polyadic, or MLCP, molecular modeling (as created by Phillip Thomas 
+Multi-Layer Cannonical Polyadic, or MLCP, eigensolver (as created by Phillip Thomas 
 at Lawrence-Berkeley National Lab) enables computational researchers to employ a fully variational 
 method of modeling molecular vibrational spectra without requiring an obscene amount of computer resources.
 
-On its own, MLCP simulates such molecular vibrational spectra using a series of user-provided harmonic, 
-cubic, and quartic force constants for a Potential Energy Surface (PES) describing the system of interest. 
+On its own, MLCP is a fully variational eigensolver that can take anharmonic constants well beyond the fourth order, 
+but potential energy surfaces (PES) are commonly available as quartic force fields. 
 Generating a viable PES usually calls another pre-existing electronic structure package and generally
 only yields harmonic force constants, but MLCP is built to consider fourth-order anharmonicity. 
 
@@ -25,7 +25,16 @@ input document merging PBQFF, NWChem, and MLCP into one joint input file for the
 ### Installation
 
 The entire pipeline is contained within a multi-stage Podman/Docker Container for ease of distribution.
+Considering such, there are two options for installation:
 
+## Downloading container as image
+If your CPU/GPU architecture matches what we used to build (LBL/NERSC Perlmutter):
+
+1) podman-hpc pull docker.io/library/ubuntu:latest
+
+2) podman-hpc migrate docker.io/library/ubuntu:latest
+
+## Building image from Containerfile
 1) Download the container and cd into the root directory `interface`
 
 2) Build the container set (replace `podman-hpc` with respective container handler)
@@ -38,8 +47,6 @@ podman-hpc migrate working # If needed, for HPC centers
 ```
 
 ### Usage
-
-The updated pipeline assumes a heterogenous Slurm approach, compartmentalizing each step into individual Slurm job submissions. Particularly, `PBQFF` (and related processes) are run as a CPU-only Slurm job, while `NWChem`, `MLCP`, and other operations are run as idvididual, step-dependent GPU-only Slurm jobs. This multi-step process is staged and checkpointed via a light control script `scripts/checkpoint.sh`.
 
 This entire `interface` directory gets mounted into the container, so users can 
 simply add/create/modify files within the interface directory for pipeline use.
@@ -60,7 +67,7 @@ charge = 0
 optimize = true
 ...
 -- 
-# Intder.in
+# Intder.in**
 # INTDER ##########################
     3    3    3    0    0    3    0    0    0    1    0    0    0    1    1    0
 STRE     1    2
@@ -87,25 +94,37 @@ of a shared geometry input) is simply a complete input file for running standalo
 with package. Each section is copied directly into individual input files, allowing users to 
 fully tune all available parameters granted by each standalone component.
 
-2) Provide your system vars
-
-The pipeline organizes its files by system name (allowing for users to run multiple independent simulations within the "same" directory). In `inputs/system.vars`, provide a name for your system and an absolute path to your master input file as shown:
+**Note: Intder.in section only necessary depending on PBQFF options. For ease, setting
+PBQFF coordinates to "normal" eliminates this dependency.
 
 ```bash
-export INPUT=$"/parent/of/pipeline/interface/inputs/sample.inp"
-export SYS_NAME=$"h2o"
+# PBQFF Input
+# ...
+coord_type = "normal"
 ```
 
-3) Run the pipeline
-
-For Slurm-based HPC systems:
+2) Edit system variables in `checkpoint.sh`
 
 ```bash
-scrontab slurm_jobs/control.slurm
+export MLCPPIPE="/global/cfs/cdirs/m5128/kbilal/interface"     # absolute path to directory
+export INPUT="${MLCPPIPE}/inputs/sample.inp"                   # relative path to working input file
+export PROJ="m5128"                                            # Slurm project name
+export EXTEND_PES="false"                                      # false: use NWChem optimization. true: use "Morsified" long-range multi-fidelity PES
+export SYS_NAME="h2o"                                          # system name of choice
 ```
 
-For local pipeline usage:
+3) Edit `interface/slurm_jobs/control.slurm`\
+This Slurm cron script is the root job for the pipeline. Make sure
+everything looks correct (namely, the -A field and absolute path to `interface` directory)
+
+4) Run the pipeline
+
+Submit the cron Slurm job from your terminal:
 
 ```bash
-scripts/checkpoint.sh
-``` 
+scrontab interface/slurm_jobs/control.slurm
+```
+
+**Note: when re-running the same simulation, be sure to
+delete any old `pipeline.checkpoint` files or irrelevant
+`system.vars` variables

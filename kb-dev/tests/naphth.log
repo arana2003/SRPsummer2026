@@ -1,0 +1,10 @@
+48 normal coordinates require 177259 points
+
+[2026-08-10T07:05:55Z DEBUG psqs::queue::drain] submitted chunk 10199 after 17.1 s
+[2026-08-10T07:05:55Z DEBUG psqs::queue::drain] submitted chunk 10069 after 17.1 s
+[2026-08-10T07:05:55Z DEBUG psqs::queue::drain] submitted chunk 10154 after 17.1 s
+[2026-08-10T07:05:55Z DEBUG psqs::queue::drain] submitted chunk 10141 after 17.2 s
+[2026-08-10T07:05:55Z DEBUG psqs::queue::drain] submitted chunk 10180 after 17.2 s
+[2026-08-10T07:05:55Z DEBUG psqs::queue::drain] finished 1600 jobs in 17.3 s
+[iter 50 2026-08-10 07:05:55 721.1 CPU s] 95659 jobs remaining
+[2026-08-10T07:05:56Z INFO  psqs::queue::drain] writing checkpoint to ./chk.json
