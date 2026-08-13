@@ -95,12 +95,15 @@ ENV MPICH_FC=nvfortran
 WORKDIR /opt/mlcp
 RUN cp config/arch_nvhpc_mpiompacc.mk ./arch.mk && \
     sed -i 's/cc60/cc80,cuda12.4/' /opt/mlcp/arch.mk && \
+    sed -i 's/USEACC = yes/USEACC = no/' /opt/mlcp/arch.mk && \
     sed -i 's|mpifort|/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/mpi/bin/mpif90|' /opt/mlcp/arch.mk && \
     make && \
-    cp config/arch_nvhpc_ompacc.mk ./arch.mk && \
+    mv mlcp.x mlcp_cpu.x && \
+    cp config/arch_nvhpc_mpiompacc.mk ./arch.mk && \
     sed -i 's/cc60/cc80,cuda12.4/' /opt/mlcp/arch.mk && \
     sed -i 's|mpifort|/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/comm_libs/mpi/bin/mpif90|' /opt/mlcp/arch.mk && \
-    make
+    make && \
+    mv mlcp.x mlcp_gpu.x
 ENV PATH=/opt/mlcp:$PATH
 
 # Starting directory

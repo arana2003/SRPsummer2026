@@ -2,7 +2,7 @@
 
 #SBATCH --job-name=mlcp_cpu
 #SBATCH --constraint=cpu
-#SBATCH --qos=regular
+#SBATCH --qos=debug
 #SBATCH --nodes=1
 #SBATCH --time=00:30:00
 #SBATCH --output=/global/cfs/cdirs/m5128/kbilal/interface/cpu_job_%j.out
@@ -18,6 +18,5 @@ export RAYON_NUM_THREADS=128
 # applications may perform better with --gpu-bind=none instead of --gpu-bind=single:1
 # srun -n 1 -c 256 --cpu_bind=cores 
 echo "Running MLCP (CPU)..."
-source system.vars
-srun -n 1 -c 256 --cpu_bind=cores podman-hpc run --userns=keep-id --rm -v "$PWD":/workspace --entrypoint="" working mlcp.x mlcp_${SYS_NAME}.inp > mlcp_${SYS_NAME}.out
+srun -n 1 -c 256 --cpu_bind=cores podman-hpc run --userns=keep-id --rm -v "$PWD":/workspace --entrypoint="" working mlcp_cpu.x mlcp_${SYS_NAME}.inp > mlcp_${SYS_NAME}.out
 

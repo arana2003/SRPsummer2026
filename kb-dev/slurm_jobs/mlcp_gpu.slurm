@@ -2,7 +2,7 @@
 
 #SBATCH --job-name=mlcp_gpu
 #SBATCH --constraint=gpu         
-#SBATCH --qos=regular
+#SBATCH --qos=debug
 #SBATCH --nodes=1
 #SBATCH --gpus-per-node=4
 #SBATCH --time=00:30:00
@@ -18,5 +18,4 @@ export OMP_PROC_BIND=spread
 # For large systems such as naphthalene, the total nr. of GPUs should equal the number of states in top layer node
 # The number of GPU nodes to request is (nr. states)/4
 echo "Running MLCP (GPU)..."
-source system.vars
-srun -n 1 -c 128 --gpu-bind=none --cpu_bind=cores podman-hpc run --userns=keep-id --rm --gpu -v "$PWD":/workspace --entrypoint="" working mlcp.x mlcp_${SYS_NAME}.inp > mlcp_${SYS_NAME}.out
+srun -n 1 -c 128 --gpu-bind=none --cpu_bind=cores podman-hpc run --userns=keep-id --rm --gpu -v "$PWD":/workspace --entrypoint="" working mlcp_gpu.x mlcp_${SYS_NAME}.inp > mlcp_${SYS_NAME}.out

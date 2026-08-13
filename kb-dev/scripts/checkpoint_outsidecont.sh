@@ -84,55 +84,49 @@ step1_setup() {
     scripts/setup.sh
 }
 step2_submit_pbqff() {
+
     echo "Submitting pbqff..."
-    cd ${MLCPPIPE}
-    PBQFF_JOBID=$(sbatch -A "$PROJ" --export=NONE --parsable ${MLCPPIPE}/slurm_jobs/pbqff.slurm)
-    echo "PBQFF_JOBID=$PBQFF_JOBID" >> "${MLCPPIPE}/simulations/${SYS_NAME}/jobids"
+    source ${SYSTEM_VARS_PATH}
+    pbqff_jobid=$(sbatch -A "$PROJ" --export=NONE --parsable slurm_jobs/pbqff.slurm)
+    echo "PBQFF_JOBID=$pbqff_jobid" >> "simulations/${SYS_NAME}/jobids"
     echo 'export JOBIDS="simulations/${SYS_NAME}/jobids"' >> ${SYSTEM_VARS_PATH}
 
-    wait_for_job "$PBQFF_JOBID"
+    wait_for_job "$pbqff_jobid"
 }
 
 step3_submit_nwchem() {
+
     echo "Submitting nwchem..."
-    cd ${MLCPPIPE}
-    source ${MLCPPIPE}/simulations/${SYS_NAME}/jobids
+    source ${SYSTEM_VARS_PATH}
+    nwchem_jobid=$(command sbatch -A ${PROJ} --parsable --dependency=afterok:$pbqff_jobid --kill-on-invalid-dep=yes slurm_jobs/nwchem.slurm)
+    echo "NWCHEM_JOBID=$nwchem_jobid" >> "simulations/${SYS_NAME}/jobids"
 
-    # -- run NWChem
-    echo "Running NWChem..."
-    NWCHEM_JOBID=$(command sbatch -A ${PROJ} --parsable ${MLCPPIPE}/slurm_jobs/nwchem.slurm)
-    echo "NWCHEM_JOBID=$NWCHEM_JOBID" >> "${MLCPPIPE}/simulations/${SYS_NAME}/jobids"
-
-    wait_for_job "$NWCHEM_JOBID"
-
-    podman-hpc exec pipe /workspace/scripts/post_nwchem.sh
+    wait_for_job "$nwchem_jobid"
 }
 
 step3_submit_extension() {
+
     echo "Submitting extension..."
-    cd ${MLCPPIPE}
-    source ${MLCPPIPE}/simulations/${SYS_NAME}/jobids
-    extension_jobid=$(command sbatch -A ${PROJ} --parsable  ${MLCPPIPE}/slurm_jobs/extension.slurm)
-    echo "EXTENSION_JOBID=$extension_jobid" >> "${MLCPPIPE}/simulations/${SYS_NAME}/jobids"
+    source ${SYSTEM_VARS_PATH}
+    extension_jobid=$(command sbatch -A ${PROJ} --parsable --dependency=afterok:$pbqff_jobid --kill-on-invalid-dep=yes slurm_jobs/extension.slurm)
+    echo "EXTENSION_JOBID=$extension_jobid" >> "simulations/${SYS_NAME}/jobids"
 
     wait_for_job "$extension_jobid"
 }
 
 step4_submit_mlcp() {
     echo "Submitting mlcp (cpu)..."
-    
-    cd ${MLCPPIPE}/simulations/${SYS_NAME}/mlcp
-    source ${MLCPPIPE}/simulations/${SYS_NAME}/jobids
+    source ${SYSTEM_VARS_PATH}
 
-    mlcp_cpu_jobid=$(command sbatch -A ${PROJ} --parsable ${MLCPPIPE}/slurm_jobs/mlcp_cpu.slurm)
-    echo "MLCP_CPU_JOBID=$mlcp_cpu_jobid" >> "${MLCPPIPE}/simulations/${SYS_NAME}/jobids"
+    mlcp_cpu_jobid=$(command sbatch -A ${PROJ} --parsable --dependency=afterok:$nwchem_jobid --kill-on-invalid-dep=yes slurm_jobs/mlcp_cpu.slurm)
+    echo "MLCP_CPU_JOBID=$mlcp_cpu_jobid" >> "simulations/${SYS_NAME}/jobids"
 
     wait_for_job "$mlcp_cpu_jobid"
 
     echo "Submitting mlcp (gpu)..."
-    sed -i 's/donode="F"/donode="T"/g' ${MLCPPIPE}/simulations/${SYS_NAME}/mlcp/mlcp_${SYS_NAME}.inp
-    mlcp_gpu_jobid=$(command sbatch -A ${PROJ} --parsable ${MLCPPIPE}/slurm_jobs/mlcp_gpu.slurm)
-    echo "MLCP_GPU_JOBID=$mlcp_gpu_jobid" >> "${MLCPPIPE}/simulations/${SYS_NAME}/jobids"
+    sed -i 's/donode="F"/donode="T"/g' simulations/${SYS_NAME}/mlcp/mlcp_${SYS_NAME}.inp
+    mlcp_gpu_jobid=$(command sbatch -A ${PROJ} --parsable --dependency=afterok:$nwchem_jobid --kill-on-invalid-dep=yes slurm_jobs/mlcp_gpu.slurm)
+    echo "MLCP_GPU_JOBID=$mlcp_gpu_jobid" >> "simulations/${SYS_NAME}/jobids"
 
     wait_for_job "$mlcp_gpu_jobid"
     echo "GPU step complete."
@@ -143,10 +137,6 @@ if [[ "${1:-}" == "-r" || "${1:-}" == "--reset" ]]; then
     LAST_STEP=0
 fi
 
-echo "Starting container..."
-podman-hpc run --userns=keep-id -d --replace --rm -v "$PWD":/workspace --name=pipe --entrypoint="" working sleep infinity
-
-echo "Starting MLCP Pipe..."
 run_step 1 "setup" step1_setup
 
 run_step 2 "pbqff" step2_submit_pbqff

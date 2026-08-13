@@ -7,9 +7,9 @@ cd /workspace/simulations/${SYS_NAME}/pbqff
 # -- run PBQFF
 echo "Running PBQFF..."
 
-if [ -f "pbqff.out" ]; then
+if [ -f ".tmp*" ]; then
     pbqff -c ${SYS_NAME}.toml
-else
+elif [[ ! -f f*{SYS_NAME}.dat ]]; then
     pbqff -o ${SYS_NAME}.toml
 fi
 

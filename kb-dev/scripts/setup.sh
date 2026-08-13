@@ -3,7 +3,7 @@
 module load conda
 conda activate base
 
-source /workspace/system.vars
+source system.vars
 cd ${MLCPPIPE}
 
 # Declare scripts files as executables

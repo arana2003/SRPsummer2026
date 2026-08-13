@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+source /workspace/system.vars
 conda run -n base /workspace/scripts/nwchem_fc.py nwc_${SYS_NAME}.out ${SYS_NAME}
 
 cd /workspace/simulations/${SYS_NAME}/mlcp
